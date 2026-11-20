@@ -1,0 +1,2185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Diario personal de carácter e integridad basado en el libro Los 7 Votos del Éxito de Néstor Ochoa.">
+<title>Los 7 Votos del Éxito · Diario de carácter e integridad</title>
+
+<!-- Tipografías: Cinzel (títulos y placas), Lora (lectura), Inter (interfaz).
+     Si no hay conexión, se usan las fuentes de respaldo definidas en las variables CSS. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* =====================================================================
+   1. VARIABLES DE DISEÑO
+   Piedra + carbón suave + dorado/bronce, y crema de pergamino.
+   ===================================================================== */
+:root{
+  --stone-50:#f8f6f2; --stone-100:#f0ece5; --stone-200:#e4ded4; --stone-300:#d2cabd;
+  --stone-400:#b0a797; --stone-600:#6f675c; --stone-700:#4f4942;
+  --charcoal:#272421; --charcoal-2:#34302c; --charcoal-3:#45403a;
+  --ink:#2d2620; --ink-soft:#5a4f44;
+  --gold:#c19a5b; --gold-light:#e2c891; --gold-deep:#9a7139; --bronze:#8a5a2e;
+  --parchment:#f4ebd9; --parchment-line:#cdb68c; --parchment-ink:#5a3a17;
+  --ok:#5d7a4a; --ok-bg:#e3ead6; --prog:#b07d3c; --prog-bg:#f3e6cf;
+  --radius:14px;
+  --shadow:0 1px 2px rgba(39,36,33,.06),0 10px 28px rgba(39,36,33,.08);
+  --f-title:"Cinzel","Playfair Display","Times New Roman",Georgia,serif;
+  --f-read:"Lora",Georgia,"Times New Roman",serif;
+  --f-ui:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:110px}
+body{
+  margin:0; min-height:100vh; font-family:var(--f-ui); color:var(--ink); line-height:1.5;
+  background:var(--stone-100);
+  background-image:
+    radial-gradient(1200px 600px at 8% -10%, #fbfaf7 0%, transparent 60%),
+    linear-gradient(180deg,var(--stone-100),var(--stone-200));
+  background-attachment:fixed;
+}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip{position:absolute;left:12px;top:-60px;z-index:200;background:var(--gold);color:#1b1208;padding:10px 14px;border-radius:8px;font-weight:600;text-decoration:none}
+.skip:focus{top:12px}
+.ico{display:inline-flex;width:18px;height:18px;flex:none}
+.ico svg,.btn svg{width:100%;height:100%}
+
+/* =====================================================================
+   2. HEADER / DASHBOARD SUPERIOR
+   ===================================================================== */
+.app-header{
+  position:relative; z-index:2;
+  background:linear-gradient(180deg,#2d2a26,#211e1b);
+  color:var(--stone-100);
+  box-shadow:inset 0 -1px 0 rgba(193,154,91,.4);
+}
+.header-inner{
+  max-width:1320px; margin:0 auto; padding:18px 24px;
+  display:grid; grid-template-columns:minmax(0,1.05fr) minmax(260px,1fr) auto;
+  gap:18px 34px; align-items:center;
+}
+.brand{display:flex;gap:14px;align-items:center;min-width:0}
+.brand-mark{
+  flex:none; width:52px; height:52px; border-radius:50%; display:grid; place-items:center;
+  font-family:var(--f-title); font-weight:700; font-size:15px; letter-spacing:.04em; color:#2a1b0b;
+  background:radial-gradient(circle at 32% 28%,#f4e2b8,#c19a5b 55%,#7a5023);
+  box-shadow:inset 0 0 0 2px rgba(255,240,210,.45),inset 0 -3px 6px rgba(60,35,10,.35),0 2px 8px rgba(0,0,0,.5);
+}
+.brand h1{margin:0;font-family:var(--f-title);font-weight:600;font-size:clamp(20px,2.3vw,26px);letter-spacing:.06em;color:var(--gold-light)}
+.brand-sub{margin:3px 0 0;font-size:13px;color:var(--stone-400)}
+
+.progreso-global{min-width:0}
+.pg-top{display:flex;justify-content:space-between;align-items:baseline;font-size:11.5px;text-transform:uppercase;letter-spacing:.14em;color:var(--stone-400);margin-bottom:6px}
+.pg-top strong{font-family:var(--f-title);font-size:24px;letter-spacing:.02em;color:var(--gold-light)}
+.bar{position:relative;height:10px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.45)}
+.bar>span{display:block;height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,#8a5a2e,#c19a5b 60%,#ecd49d);transition:width .5s ease}
+.bar-mini{height:4px;margin-top:5px}
+.pg-sub{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:10px;font-size:12px;color:var(--stone-300)}
+.pg-sub b{color:var(--stone-50);font-weight:600;margin-left:3px}
+
+.header-actions{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.btn-group{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.btn{
+  font:500 13px/1 var(--f-ui); display:inline-flex; align-items:center; gap:7px;
+  padding:10px 14px; border-radius:10px; border:1px solid transparent; cursor:pointer;
+  transition:background .2s,border-color .2s,filter .2s,transform .1s; white-space:nowrap;
+}
+.btn:active{transform:translateY(1px)}
+.btn svg{width:16px;height:16px;flex:none}
+.btn-gold{background:linear-gradient(180deg,#d6b377,#ad8548);color:#24170a;border-color:#83602d;font-weight:600;box-shadow:inset 0 1px 0 rgba(255,245,220,.55),0 1px 2px rgba(0,0,0,.3)}
+.btn-gold:hover{filter:brightness(1.07)}
+.btn-ghost{background:rgba(255,255,255,.04);color:var(--stone-200);border-color:rgba(255,255,255,.16)}
+.btn-ghost:hover{background:rgba(255,255,255,.1);border-color:rgba(193,154,91,.7)}
+.btn-ghost-dark{background:#fff;color:var(--ink);border-color:var(--stone-300)}
+.btn-ghost-dark:hover{border-color:var(--gold)}
+.btn-danger{background:#8f3b2e;color:#fff;border-color:#6d2a20}
+.btn-danger:hover{filter:brightness(1.1)}
+.save-status{font-size:11.5px;color:var(--stone-400);display:flex;align-items:center;gap:7px}
+.save-status::before{content:"";width:7px;height:7px;border-radius:50%;background:#7d9a62;box-shadow:0 0 0 3px rgba(125,154,98,.22)}
+.save-status.pendiente::before{background:var(--gold)}
+.save-status.error::before{background:#c0553f;box-shadow:0 0 0 3px rgba(192,85,63,.25)}
+
+/* =====================================================================
+   3. NAVEGACIÓN DE LOS 7 PILARES
+   ===================================================================== */
+.pilares-nav{position:sticky;top:0;z-index:20;background:rgba(240,236,229,.93);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--stone-300)}
+.nav-inner{max-width:1320px;margin:0 auto;padding:12px 24px;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px}
+.tab{
+  all:unset; box-sizing:border-box; cursor:pointer; min-width:0;
+  display:flex; gap:10px; align-items:flex-start; padding:10px 11px; border-radius:12px;
+  background:var(--stone-50); border:1px solid var(--stone-300); color:var(--ink);
+  transition:border-color .2s,transform .15s,box-shadow .2s,background .2s;
+}
+.tab:hover{border-color:var(--gold);transform:translateY(-1px)}
+.tab:focus-visible{outline:2px solid var(--gold-deep);outline-offset:2px}
+.tab.activo{background:var(--charcoal);border-color:var(--charcoal);color:var(--stone-50);box-shadow:0 8px 18px rgba(39,36,33,.25),inset 0 -3px 0 var(--gold)}
+.tab-num{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-title);font-weight:700;font-size:14px;border:1.5px solid var(--gold);color:var(--gold-deep)}
+.tab.activo .tab-num{background:linear-gradient(180deg,#e7cf9b,#b0884b);color:#24170a;border-color:#e7cf9b}
+.estado-completado .tab-num{background:var(--ok);border-color:var(--ok);color:#fff}
+.tab-body{display:flex;flex-direction:column;gap:5px;min-width:0;flex:1}
+.tab-name{font-family:var(--f-title);font-weight:600;font-size:12.5px;letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tab-status{display:flex;gap:4px;flex-wrap:wrap}
+.chip{font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:99px;letter-spacing:.02em;background:var(--stone-200);color:var(--stone-700);white-space:nowrap}
+.estado-progreso .chip-estado{background:var(--prog-bg);color:#7a4f1d}
+.estado-completado .chip-estado{background:var(--ok-bg);color:#3c5530}
+.chip-hoy{background:transparent;border:1px solid var(--gold);color:var(--gold-deep);padding:1px 6px}
+.tab.activo .chip-estado{background:rgba(255,255,255,.12);color:var(--stone-100)}
+.tab.activo.estado-completado .chip-estado{background:rgba(125,154,98,.35);color:#e9f2dc}
+.tab.activo .chip-hoy{color:var(--gold-light);border-color:var(--gold-light)}
+.tab-bar{height:3px;border-radius:9px;background:var(--stone-200);overflow:hidden}
+.tab.activo .tab-bar{background:rgba(255,255,255,.14)}
+.tab-bar>span{display:block;height:100%;background:var(--gold);transition:width .4s}
+.estado-completado .tab-bar>span{background:var(--ok)}
+
+/* =====================================================================
+   4. ÁREA PRINCIPAL (2 columnas en escritorio, 1 en móvil)
+   ===================================================================== */
+/* Fondo ambiental: viento y hojas secas (canvas detrás de todo, no recibe clics) */
+#fondo-viento{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.layout,.app-footer,.aviso{position:relative;z-index:1}
+
+.aviso{max-width:1272px;margin:16px auto 0;padding:12px 16px;border-radius:10px;background:#fbeee9;border:1px solid #e3b7aa;color:#6d2a20;font-size:14px}
+.layout{max-width:1320px;margin:0 auto;padding:28px 24px 48px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:30px;align-items:start}
+.col{min-width:0}
+
+/* ---------- Superficie compartida: los dos pergaminos hermanos ---------- */
+.pergamino,.voto-card{
+  position:relative; margin-top:16px; border-radius:6px; border:1px solid #d8c398;
+  background-color:var(--parchment);
+  /* Textura de papel envejecido: luz, manchas suaves y ruido fractal SVG embebido */
+  background-image:
+    radial-gradient(ellipse at 15% 10%, rgba(255,255,255,.55), transparent 55%),
+    radial-gradient(ellipse at 90% 95%, rgba(170,120,55,.16), transparent 50%),
+    radial-gradient(ellipse at 85% 20%, rgba(190,140,70,.08), transparent 40%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .45  0 0 0 0 .32  0 0 0 0 .16  0 0 0 .09 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  box-shadow:inset 0 0 70px rgba(150,105,45,.24),inset 0 0 12px rgba(120,80,30,.18),0 16px 36px rgba(60,40,15,.16),0 2px 4px rgba(60,40,15,.1);
+}
+/* Bordes envejecidos: oscurecimiento irregular en las orillas */
+.pergamino::after,.voto-card::after{
+  content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+  background:
+    radial-gradient(ellipse 18px 60% at 0 50%, rgba(140,95,40,.18), transparent),
+    radial-gradient(ellipse 18px 60% at 100% 50%, rgba(140,95,40,.18), transparent),
+    radial-gradient(ellipse 50% 14px at 30% 100%, rgba(140,95,40,.16), transparent),
+    radial-gradient(ellipse 40% 12px at 75% 0, rgba(140,95,40,.12), transparent);
+}
+
+/* ---------- Columna izquierda: El Voto (lectura) ---------- */
+.voto-body{padding:26px clamp(18px,3vw,38px) 4px}
+.periodo{display:inline-flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px;color:#6b4e2a;background:rgba(255,250,238,.55);border:1px solid var(--parchment-line);padding:6px 11px;border-radius:8px}
+.periodo .ico{width:15px;height:15px;color:var(--bronze)}
+.juramento{
+  margin:22px 0; padding:20px 24px; position:relative; text-align:center; border-radius:4px;
+  background:rgba(255,250,236,.55); border:2px solid #9a7139;
+  box-shadow:inset 0 0 0 4px rgba(244,235,217,.9),inset 0 0 0 5px rgba(138,90,46,.55),0 2px 0 rgba(255,255,255,.4);
+}
+.juramento .label{display:block;font-family:var(--f-title);font-size:11px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--bronze);margin-bottom:8px}
+.juramento p{margin:0;font-family:var(--f-title);font-weight:700;font-size:clamp(16px,1.75vw,19.5px);line-height:1.45;letter-spacing:.04em;color:#3a230c}
+.nota-libro{font-family:var(--f-read);font-style:italic;font-size:13px;line-height:1.55;color:#6b4e2a;background:rgba(255,250,238,.5);border-left:3px solid var(--bronze);padding:9px 12px;border-radius:0 6px 6px 0;margin:-8px 0 22px}
+.reflexion h3,.seccion-head h3{font-family:var(--f-title);font-weight:600;letter-spacing:.1em;margin:0}
+.reflexion h3{font-size:15px;color:var(--parchment-ink);border-bottom:1px solid var(--parchment-line);padding-bottom:8px;margin-bottom:12px}
+.reflexion p{margin:0;font-family:var(--f-read);font-size:17px;line-height:1.88;color:var(--ink);hyphens:auto;text-wrap:pretty}
+.reflexion p::first-letter{font-family:var(--f-title);font-weight:700;font-size:3.1em;float:left;line-height:.9;padding:7px 9px 0 0;color:var(--bronze)}
+.lectura-hoy{margin-top:28px;padding-top:22px;border-top:1px dashed rgba(140,100,50,.45);display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.btn-lectura{
+  font:600 15px/1.25 var(--f-ui); padding:14px 20px; border-radius:12px; cursor:pointer;
+  display:inline-flex; gap:10px; align-items:center; text-align:left;
+  border:1px solid var(--charcoal); background:var(--charcoal); color:var(--gold-light);
+  box-shadow:0 6px 16px rgba(39,36,33,.2); transition:background .2s,transform .1s,box-shadow .2s;
+}
+.btn-lectura:hover:not(:disabled){background:var(--charcoal-3)}
+.btn-lectura:active:not(:disabled){transform:translateY(1px)}
+.btn-lectura[aria-pressed="true"]{background:var(--ok);border-color:#4a6339;color:#fff}
+.btn-lectura[aria-pressed="true"]:hover{background:#536e42}
+.btn-lectura:disabled{background:rgba(226,210,180,.7);border-color:var(--parchment-line);color:#7a5a32;cursor:not-allowed;box-shadow:none}
+.lectura-help{margin:0;font-size:13px;color:#7a5a32}
+
+/* ---------- Placa metálica grabada (usada por ambos pergaminos) ---------- */
+.placa{
+  position:relative; z-index:1; margin:-16px 20px 0; padding:24px clamp(18px,3vw,32px) 22px; text-align:center;
+  border-radius:8px; border:1px solid #6e4826; color:#2e1d0c;
+  background:linear-gradient(135deg,#a7753f 0%,#d6b178 18%,#f0daaa 38%,#d1a96d 55%,#e7c993 72%,#a7753f 100%);
+  box-shadow:0 8px 16px rgba(60,35,10,.35),inset 0 1px 0 rgba(255,242,210,.8),inset 0 -2px 0 rgba(70,40,10,.35),inset 0 0 0 1px rgba(90,55,20,.45);
+}
+.placa::before{content:"";position:absolute;inset:7px;border:1px solid rgba(70,40,12,.45);border-radius:5px;box-shadow:0 1px 0 rgba(255,240,210,.55),inset 0 1px 0 rgba(255,240,210,.35);pointer-events:none}
+.rivet{position:absolute;width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3d4,#b8864f 45%,#5b3a1a);box-shadow:0 1px 1px rgba(0,0,0,.45)}
+.r1{top:13px;left:13px}.r2{top:13px;right:13px}.r3{bottom:13px;left:13px}.r4{bottom:13px;right:13px}
+.placa-num{font-family:var(--f-title);font-weight:600;font-size:12px;letter-spacing:.32em;color:#4a2f14;text-shadow:0 1px 0 rgba(255,238,205,.75)}
+.placa h2{font-family:var(--f-title);font-weight:700;font-size:clamp(18px,2.2vw,24px);letter-spacing:.08em;line-height:1.2;margin:5px 0 12px;color:#3a230c;text-shadow:0 1px 0 rgba(255,240,210,.8),0 -1px 0 rgba(60,35,10,.45)}
+.placa-voto h2{font-size:clamp(22px,2.8vw,30px);margin-bottom:4px}
+.placa-cita{font-family:var(--f-read);font-style:italic;font-size:14.5px;line-height:1.65;margin:0 auto;max-width:58ch;color:#33210e;text-shadow:0 1px 0 rgba(255,240,210,.5)}
+
+/* ---------- Columna derecha: El Pergamino del Pilar (acción) ---------- */
+.pergamino-body,.voto-body{position:relative;z-index:1}
+.pergamino-body{padding:28px clamp(18px,3vw,36px) 4px}
+.seccion-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--parchment-line);padding-bottom:8px}
+.seccion-head h3{font-size:15px;color:var(--parchment-ink)}
+.contador{font-size:12.5px;color:#7a5a32;font-weight:500}
+.seccion-intro{margin:8px 0 4px;font-family:var(--f-read);font-style:italic;font-size:13.5px;color:#7a5a32}
+
+/* Compromisos en modo lectura: [checkbox] [nº] [texto] [✏️] */
+.compromisos{list-style:none;margin:0 0 18px;padding:0}
+.comp{display:grid;grid-template-columns:auto 18px minmax(0,1fr) auto;gap:10px;align-items:start;padding:11px 0;border-bottom:1px dashed rgba(140,100,50,.38)}
+.comp-num{font-family:var(--f-title);font-weight:700;font-size:15px;color:var(--bronze);padding-top:4px;text-align:center}
+.comp-texto{margin:0;padding:2px 0;font-family:var(--f-read);font-size:16px;line-height:1.55;color:var(--ink);overflow-wrap:anywhere;cursor:default}
+.comp-texto.vacio{color:#a88b62;font-style:italic}
+.comp.hecho .comp-texto{color:#465a37}
+.comp.hecho .comp-num{color:var(--ok)}
+.comp textarea{
+  width:100%; resize:none; overflow:hidden; border:0; min-height:36px; margin:-3px 0;
+  font:16px/1.55 var(--f-read); color:var(--ink); padding:4px 8px; border-radius:6px;
+  background:rgba(255,252,244,.9); box-shadow:0 0 0 1.5px rgba(154,113,57,.7);
+}
+.comp textarea::placeholder{color:#a88b62;font-style:italic}
+.comp textarea:focus{outline:none;box-shadow:0 0 0 2px var(--gold-deep)}
+.comp.editando{background:rgba(255,250,236,.35)}
+.btn-lapiz{all:unset;box-sizing:border-box;cursor:pointer;width:34px;height:34px;display:grid;place-items:center;border-radius:8px;font-size:16px;line-height:1;opacity:.6;transition:opacity .2s,background .2s,transform .15s}
+.comp:hover .btn-lapiz,.btn-lapiz:focus-visible{opacity:1}
+.btn-lapiz:hover{background:rgba(255,252,244,.85);transform:rotate(-10deg)}
+.btn-lapiz:focus-visible{outline:2px solid var(--gold-deep);outline-offset:1px}
+@media (hover:none){.btn-lapiz{opacity:.95}}
+.comp-acciones{display:flex;gap:5px}
+.btn-icono{all:unset;box-sizing:border-box;cursor:pointer;width:34px;height:34px;display:grid;place-items:center;border-radius:8px;border:1px solid var(--parchment-line);background:rgba(255,252,244,.8);color:var(--parchment-ink);font-size:15px;line-height:1}
+.btn-icono svg{width:17px;height:17px}
+.btn-icono:hover{border-color:var(--bronze)}
+.btn-ok{background:linear-gradient(180deg,#7d9a62,#5d7a4a);border-color:#4a6339;color:#fff}
+.btn-icono:focus-visible{outline:2px solid var(--gold-deep);outline-offset:1px}
+.check{position:relative;display:inline-flex;align-items:center;cursor:pointer;padding-top:1px;user-select:none}
+.check input{position:absolute;opacity:0;width:1px;height:1px;margin:0}
+.check .box{width:26px;height:26px;border-radius:7px;border:1.5px solid #a7804a;background:rgba(255,253,247,.65);display:grid;place-items:center;transition:background .2s,border-color .2s}
+.check .box svg{width:16px;height:16px;color:#fff;opacity:0;transform:scale(.5);transition:opacity .2s,transform .2s}
+.check:hover .box{border-color:var(--bronze);background:#fffaf0}
+.check input:checked + .box{background:linear-gradient(180deg,#7d9a62,#5d7a4a);border-color:#4a6339}
+.check input:checked + .box svg{opacity:1;transform:none}
+.check input:focus-visible + .box{outline:2px solid var(--gold-deep);outline-offset:2px}
+
+/* Botón hacia la cueva de Pires */
+.btn-pires{
+  all:unset; box-sizing:border-box; cursor:pointer; display:flex; align-items:center; gap:12px; width:100%;
+  margin:0 0 30px; padding:13px 16px; border-radius:10px; font:14px/1.4 var(--f-ui); color:#ead7b0;
+  background:linear-gradient(135deg,#2e251d,#1a1410); border:1px solid #6e4826;
+  box-shadow:inset 0 0 0 1px rgba(226,200,145,.14),0 6px 14px rgba(40,25,10,.25); transition:transform .15s,box-shadow .2s;
+}
+.btn-pires:hover{transform:translateY(-1px);box-shadow:inset 0 0 0 1px rgba(226,200,145,.3),0 10px 22px rgba(40,25,10,.35)}
+.btn-pires:focus-visible{outline:2px solid var(--gold-deep);outline-offset:2px}
+.btn-pires strong{font-family:var(--f-title);font-weight:600;color:var(--gold-light);letter-spacing:.04em}
+.pires-ico{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:#2a1406;background:radial-gradient(circle at 50% 62%,#ffd98a,#d4782b 55%,#5a2d0e);box-shadow:0 0 14px rgba(255,150,60,.55);animation:brasa 2.6s ease-in-out infinite alternate}
+.pires-ico svg{width:20px;height:20px}
+.btn-pires .flecha{margin-left:auto;color:var(--gold);font-size:18px}
+@keyframes brasa{from{box-shadow:0 0 10px rgba(255,150,60,.45)}to{box-shadow:0 0 18px rgba(255,170,70,.75)}}
+
+/* Cuadrícula dinámica de lectura */
+.dias-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:8px;margin-top:14px}
+.dia{
+  all:unset; box-sizing:border-box; cursor:pointer; position:relative; text-align:center;
+  display:flex; flex-direction:column; align-items:center; gap:2px; padding:9px 4px 8px;
+  border-radius:8px; border:1px solid var(--parchment-line); background:rgba(255,252,244,.55);
+  transition:background .2s,border-color .2s,transform .1s;
+}
+.dia:hover:not(:disabled){border-color:var(--gold-deep);background:rgba(255,252,244,.95)}
+.dia:active:not(:disabled){transform:scale(.97)}
+.dia:focus-visible{outline:2px solid var(--gold-deep);outline-offset:2px}
+.dia-n{font-family:var(--f-title);font-weight:700;font-size:12.5px;color:var(--parchment-ink)}
+.dia-f{font-size:11px;color:#86683f}
+.dia.leido{background:linear-gradient(180deg,#ab7d45,#86572b);border-color:#6e4826;box-shadow:inset 0 1px 0 rgba(255,230,180,.35)}
+.dia.leido .dia-n,.dia.leido .dia-f{color:#fbf1dc}
+.dia.leido::after{content:"✓";position:absolute;top:3px;right:6px;font-size:11px;font-weight:700;color:#fbe7bd}
+.dia.hoy{box-shadow:0 0 0 2px var(--parchment),0 0 0 4px var(--gold-deep)}
+.dia:disabled{cursor:not-allowed;opacity:.5;border-style:dashed}
+.leyenda{display:flex;gap:16px;flex-wrap:wrap;margin:14px 0 0;font-size:12px;color:#7a5a32}
+.leyenda span{display:inline-flex;align-items:center;gap:6px}
+.leyenda i{width:14px;height:14px;border-radius:4px;border:1px solid var(--parchment-line);background:rgba(255,252,244,.6)}
+.leyenda .sw-leido{background:#9a6a38;border-color:#6e4826}
+.leyenda .sw-hoy{box-shadow:0 0 0 2px var(--gold-deep)}
+.leyenda .sw-futuro{border-style:dashed;opacity:.6}
+/* Rodillo inferior del pergamino */
+.rodillo{height:16px;margin:28px -9px -9px;border-radius:9px;background:linear-gradient(180deg,#d4b483,#8a5a2e 55%,#5e3b1b);box-shadow:0 4px 8px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,235,200,.5)}
+
+footer.app-footer{max-width:1320px;margin:0 auto;padding:0 24px 36px;font-size:12.5px;color:var(--stone-600);text-align:center}
+
+/* =====================================================================
+   5. DIÁLOGO DE CONFIGURACIÓN Y TOAST
+   ===================================================================== */
+dialog{border:0;padding:0;border-radius:16px;width:min(760px,calc(100vw - 24px));max-height:calc(100vh - 32px);background:var(--stone-50);color:var(--ink);box-shadow:0 30px 80px rgba(0,0,0,.4)}
+dialog::backdrop{background:rgba(20,18,16,.62);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+#form-config{display:flex;flex-direction:column;max-height:calc(100vh - 32px)}
+.dlg-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 22px;background:var(--charcoal);color:var(--gold-light);box-shadow:inset 0 -1px 0 rgba(193,154,91,.45)}
+.dlg-head h2{font-family:var(--f-title);margin:0;font-size:19px;letter-spacing:.06em}
+.dlg-close{all:unset;cursor:pointer;font-size:26px;line-height:1;color:var(--stone-300);padding:2px 9px;border-radius:6px}
+.dlg-close:hover{background:rgba(255,255,255,.1)}
+.dlg-close:focus-visible{outline:2px solid var(--gold)}
+.dlg-body{padding:20px 22px;overflow:auto}
+.dlg-intro{margin:0 0 18px;font-size:14px;color:var(--ink-soft)}
+.dlg-foot{display:flex;justify-content:flex-end;gap:10px;padding:14px 22px;border-top:1px solid var(--stone-200);background:var(--stone-100)}
+.field{margin-bottom:18px}
+.field-label{display:block;font-size:11.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--stone-600);margin-bottom:7px}
+input[type=date],input[type=number],select{font:15px var(--f-ui);padding:9px 10px;border:1px solid var(--stone-300);border-radius:8px;background:#fff;color:var(--ink);width:100%;min-width:0}
+input[type=date]{max-width:240px}
+input.invalido{border-color:#c0553f;box-shadow:0 0 0 2px rgba(192,85,63,.2)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip-btn{all:unset;cursor:pointer;padding:7px 13px;border-radius:99px;border:1px solid var(--stone-300);font-size:13px;font-weight:500;background:#fff;transition:border-color .2s,background .2s}
+.chip-btn:hover{border-color:var(--gold);background:#fbf5ea}
+.chip-btn.activo{background:var(--charcoal);border-color:var(--charcoal);color:var(--gold-light)}
+.chip-btn:focus-visible{outline:2px solid var(--gold-deep);outline-offset:2px}
+.cfg-tabla{border:1px solid var(--stone-200);border-radius:10px;overflow:hidden}
+.cfg-row{display:grid;grid-template-columns:30px minmax(0,1fr) 150px 82px 178px;gap:10px;align-items:center;padding:9px 12px;border-bottom:1px solid var(--stone-200);background:#fff;font-size:14px}
+.cfg-row:last-child{border-bottom:0}
+.cfg-row:nth-child(odd):not(.cfg-head){background:var(--stone-50)}
+.cfg-head{background:var(--stone-100)!important;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--stone-600)}
+.cfg-n{font-family:var(--f-title);font-weight:700;color:var(--gold-deep)}
+.cfg-name{font-family:var(--f-title);font-weight:600;font-size:13.5px}
+.cfg-rango{font-size:12.5px;color:var(--stone-600)}
+.cfg-total{margin:14px 0 0;font-size:14px;color:var(--ink-soft)}
+.cfg-total b{color:var(--ink)}
+.zona-peligro{margin-top:22px;border:1px solid #ecd0c7;border-radius:10px;padding:10px 14px;background:#fdf7f5}
+.zona-peligro summary{cursor:pointer;font-size:13px;font-weight:600;color:#8f3b2e}
+.zona-peligro p{font-size:13px;color:var(--ink-soft)}
+
+#toast{position:fixed;left:50%;bottom:24px;z-index:300;transform:translate(-50%,16px);opacity:0;pointer-events:none;max-width:calc(100vw - 32px);
+  background:var(--charcoal);color:var(--stone-50);padding:12px 18px;border-radius:10px;font-size:14px;border-left:3px solid var(--gold);
+  box-shadow:0 12px 30px rgba(0,0,0,.3);transition:opacity .25s,transform .25s}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+#toast.error{border-left-color:#c0553f}
+
+/* =====================================================================
+   5b. LA CUEVA DE PIRES EL SABIO (modal inmersivo)
+   ===================================================================== */
+dialog.cueva{width:100vw;height:100vh;height:100dvh;max-width:none;max-height:none;margin:0;border-radius:0;background:#0c0907;color:#efe4cf;box-shadow:none}
+dialog.cueva::backdrop{background:#000}
+.cueva-escena{
+  position:relative; height:100%; display:grid; grid-template-columns:minmax(280px,40%) minmax(0,1fr); overflow:hidden;
+  background:
+    radial-gradient(ellipse 55% 55% at 20% 80%, rgba(255,140,50,.30), transparent 62%),
+    radial-gradient(ellipse 90% 60% at 50% 125%, rgba(130,65,20,.38), transparent 60%),
+    radial-gradient(ellipse at 50% 45%, transparent 35%, rgba(0,0,0,.78) 100%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='520' height='520'><filter id='r'><feTurbulence type='fractalNoise' baseFrequency='.016' numOctaves='5' seed='7' stitchTiles='stitch'/><feDiffuseLighting lighting-color='%23c9935a' surfaceScale='4'><feDistantLight azimuth='225' elevation='38'/></feDiffuseLighting></filter><rect width='100%25' height='100%25' filter='url(%23r)' opacity='.20'/></svg>"),
+    linear-gradient(180deg,#241b15,#130e0b 60%,#0b0806);
+}
+.cueva-luz{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 45% 50% at 20% 78%, rgba(255,165,70,.22), transparent 70%);animation:antorcha 3.2s ease-in-out infinite;mix-blend-mode:screen}
+@keyframes antorcha{0%,100%{opacity:.75}18%{opacity:1}35%{opacity:.82}52%{opacity:.95}70%{opacity:.7}86%{opacity:1}}
+.cueva-techo{position:absolute;top:0;left:0;width:100%;height:90px;pointer-events:none;z-index:2}
+.cueva-suelo{position:absolute;left:0;right:0;bottom:0;height:70px;pointer-events:none;background:linear-gradient(0deg,rgba(0,0,0,.7),transparent)}
+
+.cueva-sabio{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:70px 20px 34px;min-height:0}
+.pires-svg{width:100%;max-width:330px;height:auto;max-height:64vh;filter:drop-shadow(0 18px 24px rgba(0,0,0,.6));position:relative;z-index:1}
+.p-cuerpo{transform-origin:160px 430px;animation:respirar 5s ease-in-out infinite}
+.p-barba{transform-origin:160px 130px;animation:barba 6s ease-in-out infinite}
+.p-gema{animation:gema 2.8s ease-in-out infinite alternate}
+.cueva-sabio.pensando .p-gema{animation-duration:.7s}
+@keyframes respirar{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.012)}}
+@keyframes barba{0%,100%{transform:rotate(0)}30%{transform:rotate(.9deg)}70%{transform:rotate(-.7deg)}}
+@keyframes gema{from{opacity:.45}to{opacity:1}}
+.sabio-nombre{position:relative;z-index:1;text-align:center;margin-top:8px}
+.sabio-nombre h3{margin:0;font-family:var(--f-title);font-size:22px;letter-spacing:.12em;color:var(--gold-light);text-shadow:0 0 18px rgba(255,170,80,.35)}
+.sabio-nombre p{margin:2px 0 0;font-size:12.5px;color:#b9a487;letter-spacing:.04em}
+
+/* Fogata hecha con CSS */
+.fogata{position:absolute;left:7%;bottom:58px;width:96px;height:120px;z-index:2}
+.fogata::before{content:"";position:absolute;left:50%;bottom:0;width:340px;height:340px;transform:translate(-50%,40%);border-radius:50%;background:radial-gradient(circle,rgba(255,150,60,.32),transparent 62%);animation:antorcha 2.4s ease-in-out infinite}
+.llama{position:absolute;left:50%;bottom:20px;width:46px;height:76px;margin-left:-23px;border-radius:50% 50% 45% 45%/62% 62% 38% 38%;
+  background:radial-gradient(ellipse at 50% 82%,#fff6c4 0%,#ffcb57 28%,#ff8a1f 55%,rgba(255,80,0,0) 74%);
+  transform-origin:50% 100%;filter:blur(.6px);mix-blend-mode:screen;animation:llama 1.15s ease-in-out infinite alternate}
+.llama.l2{width:32px;height:54px;margin-left:-34px;animation-duration:.85s;animation-delay:-.35s}
+.llama.l3{width:30px;height:50px;margin-left:4px;animation-duration:1s;animation-delay:-.6s}
+@keyframes llama{0%{transform:scale(1,1) skewX(2deg)}45%{transform:scale(.9,1.12) skewX(-4deg)}100%{transform:scale(1.06,.94) skewX(3deg)}}
+.lena{position:absolute;left:50%;bottom:10px;width:84px;height:13px;margin-left:-42px;border-radius:7px;background:linear-gradient(180deg,#6a4223,#3a2111);transform:rotate(-12deg);box-shadow:0 2px 4px rgba(0,0,0,.6)}
+.lena.b{transform:rotate(14deg);bottom:12px;background:linear-gradient(180deg,#5c381d,#2f1a0c)}
+.chispa{position:absolute;left:50%;bottom:60px;width:3px;height:3px;border-radius:50%;background:#ffd27a;box-shadow:0 0 6px #ffb14a;opacity:0;animation:chispa 2.6s linear infinite}
+.chispa.c2{animation-delay:.9s;left:42%}.chispa.c3{animation-delay:1.7s;left:58%}
+@keyframes chispa{0%{opacity:0;transform:translate(0,0)}10%{opacity:1}100%{opacity:0;transform:translate(14px,-110px)}}
+
+/* Panel de conversación */
+.cueva-chat{position:relative;z-index:3;min-width:0;display:flex;flex-direction:column;gap:12px;min-height:0;padding:74px clamp(16px,3vw,44px) 20px clamp(12px,2vw,24px)}
+.cueva-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}
+.cueva-head h2{margin:0;font-family:var(--f-title);font-size:clamp(20px,2.4vw,27px);letter-spacing:.08em;color:var(--gold-light)}
+.cueva-head p{margin:3px 0 0;font-size:13px;color:#b9a487}
+.btn-salir{font:600 13px/1.2 var(--f-ui);display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;cursor:pointer;color:#24170a;border:1px solid #83602d;background:linear-gradient(180deg,#d6b377,#ad8548);box-shadow:inset 0 1px 0 rgba(255,245,220,.55),0 4px 12px rgba(0,0,0,.4)}
+.btn-salir:hover{filter:brightness(1.08)}
+.chat-log{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:14px;padding:8px 6px 8px 0;scrollbar-width:thin;scrollbar-color:#6e4826 transparent}
+.msg{max-width:min(660px,94%);animation:aparecer .35s ease-out}
+@keyframes aparecer{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.msg-pires{align-self:flex-start;color:var(--ink);padding:14px 18px 12px;border-radius:4px 14px 14px 14px;font-family:var(--f-read);font-size:15.5px;line-height:1.6;
+  background-color:var(--parchment);
+  background-image:radial-gradient(ellipse at 15% 10%, rgba(255,255,255,.5), transparent 55%),radial-gradient(ellipse at 90% 95%, rgba(170,120,55,.18), transparent 50%);
+  box-shadow:inset 0 0 34px rgba(150,105,45,.28),0 10px 24px rgba(0,0,0,.5)}
+.msg-pires p{margin:0 0 8px}
+.msg-pires p:last-child{margin-bottom:0}
+.msg .quien{font-family:var(--f-title);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--bronze);margin-bottom:6px}
+.msg-user{align-self:flex-end;color:#f3e8d3;background:rgba(42,33,27,.92);border:1px solid rgba(193,154,91,.5);border-radius:14px 4px 14px 14px;padding:10px 14px;font-size:15px}
+.msg-user .quien{color:#b9a487}
+.versiculo{margin:10px 0;padding:9px 13px;border-left:3px solid var(--bronze);background:rgba(255,250,236,.6);border-radius:0 6px 6px 0;font-style:italic}
+.versiculo cite{display:block;margin-top:4px;font-style:normal;font-family:var(--f-title);font-size:12px;font-weight:600;letter-spacing:.06em;color:var(--bronze)}
+.ideas{list-style:none;margin:6px 0 10px;padding:0}
+.ideas li{display:flex;flex-wrap:wrap;gap:6px 12px;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed rgba(140,100,50,.4)}
+.ideas li > span:first-child{flex:1 1 260px}
+.ideas li > span:first-child::before{content:"✦ ";color:var(--bronze)}
+.btn-usar{font:600 12px/1.2 var(--f-ui);padding:7px 10px;border-radius:8px;cursor:pointer;white-space:nowrap;background:var(--charcoal);color:var(--gold-light);border:1px solid var(--charcoal)}
+.btn-usar:hover{background:var(--charcoal-3)}
+.idea-ok{font:600 12px var(--f-ui);color:var(--ok)}
+.picker{display:flex;flex-wrap:wrap;gap:5px;align-items:center;font:12px var(--f-ui);color:#6b4e2a}
+.picker button{font:600 12px var(--f-ui);min-width:28px;height:28px;border-radius:6px;cursor:pointer;border:1px solid var(--parchment-line);background:rgba(255,252,244,.9);color:var(--parchment-ink)}
+.picker button:hover{border-color:var(--bronze);background:#fff}
+.picker .cancelar{min-width:auto;padding:0 8px}
+.escribiendo{font-style:italic;color:#7a5a32}
+.puntos span{display:inline-block;width:5px;height:5px;margin-left:3px;border-radius:50%;background:var(--bronze);animation:punto 1s infinite ease-in-out}
+.puntos span:nth-child(2){animation-delay:.15s}.puntos span:nth-child(3){animation-delay:.3s}
+@keyframes punto{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+.chat-sugerencias{display:flex;gap:8px;flex-wrap:wrap}
+.sug{font:13px/1.25 var(--f-ui);padding:8px 13px;border-radius:99px;cursor:pointer;color:var(--gold-light);background:rgba(30,24,19,.78);border:1px solid rgba(193,154,91,.55);transition:background .2s,border-color .2s}
+.sug:hover:not(:disabled){background:rgba(70,52,36,.85);border-color:var(--gold-light)}
+.sug:disabled,.chat-form button:disabled{opacity:.5;cursor:wait}
+.chat-form{display:flex;gap:8px}
+.chat-form input{flex:1;min-width:0;font:15px var(--f-ui);padding:12px 14px;border-radius:12px;color:#f3e8d3;background:rgba(20,16,13,.88);border:1px solid rgba(193,154,91,.45)}
+.chat-form input::placeholder{color:#8f7b62}
+.chat-form input:focus{outline:none;border-color:var(--gold-light);box-shadow:0 0 0 3px rgba(193,154,91,.25)}
+.chat-form button{font:600 14px var(--f-ui);padding:0 18px;border-radius:12px;cursor:pointer;color:#24170a;border:1px solid #83602d;background:linear-gradient(180deg,#d6b377,#ad8548)}
+.cueva :focus-visible{outline:2px solid var(--gold-light);outline-offset:2px}
+
+@media (max-width:860px){
+  .cueva-escena{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr)}
+  .cueva-sabio{flex-direction:row;justify-content:center;gap:14px;padding:46px 14px 0}
+  .pires-svg{width:auto;height:168px;max-height:none}
+  .sabio-nombre{text-align:left;margin:0}
+  .sabio-nombre h3{font-size:18px}
+  .fogata{left:4%;bottom:-6px;transform:scale(.6);transform-origin:bottom left}
+  .cueva-chat{padding:8px 12px 12px}
+  .cueva-head .btn-salir{width:100%;justify-content:center}
+  .chat-sugerencias{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}
+  .sug{flex:none}
+  .cueva-techo{height:50px}
+}
+
+/* =====================================================================
+   6. RESPONSIVO
+   ===================================================================== */
+@media (max-width:1120px){
+  .header-inner{grid-template-columns:1fr 1fr}
+  .header-actions{grid-column:1/-1;flex-direction:row;flex-wrap:wrap;justify-content:space-between;align-items:center}
+}
+@media (max-width:980px){
+  .nav-inner{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding:10px 14px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+  .tab{flex:0 0 158px;scroll-snap-align:start}
+  .layout{grid-template-columns:1fr;padding:18px 14px 40px;gap:26px}
+}
+@media (max-width:720px){
+  .header-inner{grid-template-columns:1fr;padding:16px}
+  .header-actions{flex-direction:column;align-items:stretch}
+  .btn-group{justify-content:stretch}
+  .btn-group .btn{flex:1;justify-content:center}
+  .btn-gold{justify-content:center}
+  .save-status{justify-content:center}
+  .placa{margin:-16px 10px 0}
+  .reflexion p{font-size:16.5px}
+  .cfg-head{display:none}
+  .cfg-row{grid-template-columns:28px 1fr 1fr;grid-template-areas:"n name name" "n sel num" "n rango rango"}
+  .cfg-n{grid-area:n;align-self:start}.cfg-name{grid-area:name}.cfg-sel{grid-area:sel}.cfg-num{grid-area:num}.cfg-rango{grid-area:rango}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+
+/* =====================================================================
+   7. VISTA DE IMPRESIÓN / PDF
+   En pantalla está oculta; al imprimir solo se muestra #print-view.
+   ===================================================================== */
+#print-view{display:none}
+@media print{
+  @page{size:A4;margin:15mm 14mm}
+  html,body{background:#fff!important}
+  body>*:not(#print-view){display:none!important}
+  #print-view{display:block;color:#111;font-family:var(--f-read);font-size:10.5pt;line-height:1.5}
+  #print-view h1,#print-view h2,#print-view h3,#print-view h4{font-family:var(--f-title);letter-spacing:.04em;margin:0}
+  .pv-portada h1{font-size:24pt;margin-bottom:4pt}
+  .pv-portada .pv-sub{font-size:11pt;color:#444;margin:0 0 14pt}
+  .pv-resumen{width:100%;border-collapse:collapse;margin-top:12pt;font-family:var(--f-ui);font-size:9.5pt}
+  .pv-resumen th,.pv-resumen td{border:.75pt solid #999;padding:4pt 6pt;text-align:left}
+  .pv-resumen th{background:#eee;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .pv-mod{break-before:page}
+  .pv-eyebrow{font-family:var(--f-ui);font-size:8.5pt;letter-spacing:.15em;text-transform:uppercase;color:#555}
+  .pv-mod h2{font-size:17pt;margin:2pt 0 4pt}
+  .pv-periodo{font-family:var(--f-ui);font-size:9pt;color:#444;margin:0 0 8pt}
+  .pv-juramento{border:1.5pt solid #222;padding:7pt 10pt;font-family:var(--f-title);font-weight:700;font-size:11.5pt;margin:6pt 0 8pt}
+  .pv-nota{font-size:8.5pt;color:#555;font-style:italic;margin:0 0 8pt}
+  .pv-texto{text-align:justify;margin:0 0 10pt}
+  .pv-placa{border:1pt solid #8a5a2e;border-radius:4pt;padding:8pt 12pt;margin:8pt 0 12pt;text-align:center;background:#f4ebd9;-webkit-print-color-adjust:exact;print-color-adjust:exact;break-inside:avoid}
+  .pv-placa h3{font-size:12.5pt;margin-bottom:4pt}
+  .pv-placa p{margin:0;font-style:italic;font-size:9.5pt}
+  .pv-mod h4{font-size:10.5pt;margin:10pt 0 4pt;border-bottom:.75pt solid #999;padding-bottom:2pt}
+  .pv-comp{list-style:none;margin:0;padding:0}
+  .pv-comp li{display:flex;gap:8pt;align-items:flex-start;padding:3pt 0;border-bottom:.5pt dotted #aaa;break-inside:avoid}
+  .pv-box{flex:none;width:11pt;height:11pt;border:1pt solid #333;font-size:8.5pt;line-height:10pt;text-align:center;font-family:var(--f-ui)}
+  .pv-vacio{color:#999}
+  .pv-dias{display:grid;grid-template-columns:repeat(7,1fr);gap:3pt;margin-top:4pt}
+  .pv-dia{border:.75pt solid #888;padding:2pt;text-align:center;font-family:var(--f-ui);font-size:7.5pt;break-inside:avoid}
+  .pv-dia b{display:block;font-size:8pt}
+  .pv-dia.leido{background:#d9cbb0;border-color:#6e4826;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<!-- Fondo animado: ráfagas de viento y hojas secas (decorativo) -->
+<canvas id="fondo-viento" aria-hidden="true"></canvas>
+<a class="skip" href="#principal">Saltar al contenido</a>
+
+<!-- ===================== HEADER / DASHBOARD ===================== -->
+<header class="app-header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">VII</div>
+      <div>
+        <h1>Los 7 Votos del Éxito</h1>
+        <p class="brand-sub">Christopher Mayén - 0901-24-1175</p>
+      </div>
+    </div>
+
+    <div class="progreso-global">
+      <div class="pg-top"><span>Integridad global</span><strong id="pg-total">0%</strong></div>
+      <div class="bar" role="progressbar" aria-label="Integridad global" aria-valuemin="0" aria-valuemax="100" id="pg-bar-wrap"><span id="pg-bar"></span></div>
+      <div class="pg-sub">
+        <div>Lecturas <b id="pg-lect">0/0</b>
+          <div class="bar bar-mini" role="progressbar" aria-label="Lecturas completadas" aria-valuemin="0" aria-valuemax="100" id="pg-lect-wrap"><span id="pg-lect-bar"></span></div>
+        </div>
+        <div>Compromisos <b id="pg-comp">0/49</b>
+          <div class="bar bar-mini" role="progressbar" aria-label="Compromisos cumplidos" aria-valuemin="0" aria-valuemax="100" id="pg-comp-wrap"><span id="pg-comp-bar"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button type="button" class="btn btn-gold" id="btn-config">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1"/><circle cx="15" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="18" r="2"/></svg>
+        Configurar tiempos
+      </button>
+      <div class="btn-group">
+        <button type="button" class="btn btn-ghost" id="btn-export" title="Descargar un respaldo de tu progreso en JSON">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>
+          Exportar
+        </button>
+        <button type="button" class="btn btn-ghost" id="btn-import" title="Restaurar un respaldo JSON">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21V9M7 14l5-5 5 5M4 3h16"/></svg>
+          Importar
+        </button>
+        <button type="button" class="btn btn-ghost" id="btn-print" title="Vista limpia para imprimir o guardar como PDF">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg>
+          Imprimir / PDF
+        </button>
+      </div>
+      <input type="file" id="file-import" accept="application/json,.json" hidden>
+      <div class="save-status" id="save-status" aria-live="polite">Guardado automático activo</div>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== NAVEGACIÓN DE PILARES ===================== -->
+<nav class="pilares-nav" aria-label="Los 7 pilares">
+  <div class="nav-inner" id="nav" role="tablist" aria-label="Seleccionar pilar"></div>
+</nav>
+
+<div id="aviso-almacenamiento" class="aviso" hidden>
+  Tu navegador no permite guardar datos en este dispositivo (¿modo privado o almacenamiento bloqueado?).
+  Usa <strong>Exportar</strong> con frecuencia para no perder tu progreso.
+</div>
+
+<!-- ===================== ÁREA PRINCIPAL ===================== -->
+<main id="principal" class="layout">
+  <section id="col-voto" class="col" role="tabpanel" aria-label="El voto"></section>
+  <section id="col-pergamino" class="col" aria-label="El pergamino del pilar"></section>
+</main>
+
+<footer class="app-footer">
+  Contenido de los votos y pilares: <em>Los 7 Votos del Éxito</em>, Néstor Ochoa. Tus compromisos y registros se guardan solo en este navegador.
+</footer>
+
+<!-- Vista de impresión (se genera al imprimir) -->
+<div id="print-view" aria-hidden="true"></div>
+
+<!-- ===================== DIÁLOGO: CONFIGURAR TIEMPOS ===================== -->
+<dialog id="dlg-config" aria-labelledby="cfg-title">
+  <form id="form-config" novalidate>
+    <header class="dlg-head">
+      <h2 id="cfg-title">Configurar tiempos</h2>
+      <button type="button" class="dlg-close" data-close aria-label="Cerrar">×</button>
+    </header>
+    <div class="dlg-body">
+      <p class="dlg-intro">
+        El libro propone una semana por voto. Elige la fecha en que comienzas y cuántos días quieres dedicar a cada pilar.
+        Los pilares se recorren en orden, uno tras otro. Tus lecturas se guardan por número de día (Día 1, Día 2…), así que
+        si cambias la fecha de inicio, las marcas se mueven con ella.
+      </p>
+      <div class="field">
+        <label class="field-label" for="cfg-fecha">Fecha de inicio del programa</label>
+        <input type="date" id="cfg-fecha" required>
+      </div>
+      <div class="field">
+        <span class="field-label" id="cfg-chips-label">Misma duración para los 7 pilares</span>
+        <div class="chips" id="cfg-chips" role="group" aria-labelledby="cfg-chips-label"></div>
+      </div>
+      <div class="field">
+        <span class="field-label">Duración por pilar</span>
+        <div class="cfg-tabla" id="cfg-tabla"></div>
+        <p class="cfg-total" id="cfg-total"></p>
+      </div>
+      <details class="zona-peligro">
+        <summary>Restablecer todo</summary>
+        <p>Borra la configuración, tus 49 compromisos y todas las lecturas de este navegador. Antes, te conviene exportar un respaldo.</p>
+        <button type="button" class="btn btn-danger" id="btn-reset">Borrar todo mi progreso</button>
+      </details>
+    </div>
+    <footer class="dlg-foot">
+      <button type="button" class="btn btn-ghost-dark" data-close>Cancelar</button>
+      <button type="submit" class="btn btn-gold">Guardar configuración</button>
+    </footer>
+  </form>
+</dialog>
+
+<!-- ===================== LA CUEVA DE PIRES EL SABIO ===================== -->
+<dialog id="dlg-cueva" class="cueva" aria-labelledby="cueva-titulo">
+  <div class="cueva-escena">
+    <div class="cueva-luz" aria-hidden="true"></div>
+    <!-- Techo rocoso con estalactitas -->
+    <svg class="cueva-techo" viewBox="0 0 1200 110" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 0H1200V38L1172 64 1150 48 1118 98 1092 52 1052 74 1020 40 984 66 950 44 912 92 884 50 842 70 806 36 772 58 742 104 714 54 676 66 640 34 604 62 574 46 538 96 510 50 470 68 436 38 400 64 366 44 330 88 302 48 262 72 228 36 192 60 160 46 128 100 100 52 64 70 34 40 0 58Z" fill="#060403"/>
+      <path d="M0 0H1200V18L1140 30 1080 20 1010 34 940 18 880 30 800 16 720 30 650 18 580 32 500 16 430 30 360 18 290 32 220 16 150 30 80 18 0 30Z" fill="#000" opacity=".6"/>
+    </svg>
+    <div class="cueva-suelo" aria-hidden="true"></div>
+
+    <aside class="cueva-sabio" id="cueva-sabio">
+      <!-- Fogata -->
+      <div class="fogata" aria-hidden="true">
+        <span class="lena"></span><span class="lena b"></span>
+        <span class="llama"></span><span class="llama l2"></span><span class="llama l3"></span>
+        <span class="chispa"></span><span class="chispa c2"></span><span class="chispa c3"></span>
+      </div>
+
+      <!-- Pires el Sabio: anciano de barba larga, túnica y bastón de madera -->
+      <svg class="pires-svg" viewBox="0 0 320 440" role="img" aria-label="Pires el Sabio: un anciano de barba larga y blanca, con túnica, manto y un bastón de madera">
+        <defs>
+          <linearGradient id="pTunica" x1="0" x2="1"><stop offset="0" stop-color="#4e3320"/><stop offset=".45" stop-color="#7d5536"/><stop offset="1" stop-color="#3a2516"/></linearGradient>
+          <linearGradient id="pManto" x1="0" x2="1"><stop offset="0" stop-color="#4a3a2a"/><stop offset=".5" stop-color="#2f2519"/><stop offset="1" stop-color="#1c150e"/></linearGradient>
+          <linearGradient id="pBarba" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6f2ea"/><stop offset=".65" stop-color="#ddd6ca"/><stop offset="1" stop-color="#b8b0a2"/></linearGradient>
+          <radialGradient id="pPiel" cx=".4" cy=".42" r=".75"><stop offset="0" stop-color="#e8b98e"/><stop offset="1" stop-color="#b47a52"/></radialGradient>
+          <linearGradient id="pMadera" x1="0" x2="1"><stop offset="0" stop-color="#3d2512"/><stop offset=".45" stop-color="#7a5230"/><stop offset="1" stop-color="#2e1b0c"/></linearGradient>
+          <radialGradient id="pGema" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff3c4"/><stop offset=".5" stop-color="#ffb347"/><stop offset="1" stop-color="#ff8a1f" stop-opacity="0"/></radialGradient>
+        </defs>
+
+        <ellipse cx="165" cy="428" rx="125" ry="11" fill="#000" opacity=".55"/>
+
+        <g class="p-cuerpo">
+          <!-- Manto -->
+          <path d="M98 146 C 70 226, 58 330, 46 428 L 274 428 C 264 330, 252 226, 222 146 Z" fill="url(#pManto)"/>
+          <path d="M70 300 C 80 350, 74 390, 66 428 M250 300 C 242 350, 250 390, 258 428" stroke="#000" stroke-opacity=".3" stroke-width="3" fill="none"/>
+          <!-- Bastón (detrás de la mano) -->
+          <path d="M247 62 C 241 160, 254 262, 245 428" stroke="url(#pMadera)" stroke-width="12" fill="none" stroke-linecap="round"/>
+          <path d="M247 64 C 230 52, 232 28, 250 24 C 268 20, 278 40, 266 52 C 259 59, 249 56, 252 47" stroke="#5a391c" stroke-width="9" fill="none" stroke-linecap="round"/>
+          <circle class="p-gema" cx="256" cy="40" r="11" fill="url(#pGema)"/>
+          <ellipse cx="246" cy="150" rx="7" ry="3.5" fill="#2e1b0c"/>
+          <ellipse cx="249" cy="290" rx="7" ry="3.5" fill="#2e1b0c"/>
+          <path d="M244 330 l-12 -10" stroke="#4a2f18" stroke-width="5" stroke-linecap="round"/>
+          <!-- Túnica -->
+          <path d="M120 156 C 106 250, 102 340, 98 428 L 222 428 C 218 340, 214 250, 200 156 Z" fill="url(#pTunica)"/>
+          <path d="M140 240 C 136 300, 134 360, 132 428 M180 240 C 184 300, 186 360, 188 428 M160 330 L 160 428" stroke="#000" stroke-opacity=".22" stroke-width="2.5" fill="none"/>
+          <!-- Cordón de la cintura -->
+          <path d="M110 298 Q160 314 210 298" stroke="#c9a86a" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <path d="M150 309 C 148 330, 152 350, 146 372 M158 310 C 160 332, 158 350, 162 368" stroke="#b8975a" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <circle cx="146" cy="374" r="4" fill="#c9a86a"/><circle cx="162" cy="370" r="4" fill="#c9a86a"/>
+          <!-- Capucha caída sobre los hombros -->
+          <path d="M98 150 C 112 118, 208 118, 222 150 C 206 170, 114 170, 98 150 Z" fill="#3a2d20"/>
+          <path d="M106 150 C 122 132, 198 132, 214 150" stroke="#000" stroke-opacity=".35" stroke-width="3" fill="none"/>
+          <!-- Brazo y mano sobre el bastón -->
+          <path d="M206 152 C 232 162, 248 184, 252 204 L 236 216 C 228 198, 214 186, 198 178 Z" fill="url(#pManto)"/>
+          <ellipse cx="244" cy="210" rx="14" ry="11.5" fill="url(#pPiel)"/>
+          <path d="M234 206 q10 -4 20 0 M233 212 q11 -3 22 1" stroke="#8a5536" stroke-width="1.4" fill="none" opacity=".7"/>
+          <!-- Mano izquierda sobre el pecho -->
+          <path d="M112 160 C 98 200, 104 236, 122 252 L 136 240 C 124 222, 122 196, 128 172 Z" fill="url(#pManto)"/>
+          <ellipse cx="132" cy="250" rx="12" ry="10" fill="url(#pPiel)"/>
+        </g>
+
+        <!-- Cabeza -->
+        <g class="p-cabeza">
+          <ellipse cx="126" cy="104" rx="7" ry="11" fill="url(#pPiel)"/>
+          <ellipse cx="194" cy="104" rx="7" ry="11" fill="url(#pPiel)"/>
+          <ellipse cx="160" cy="98" rx="34" ry="41" fill="url(#pPiel)"/>
+          <!-- Cabello blanco a los lados -->
+          <path d="M127 74 C 118 86, 118 106, 124 120 C 128 108, 130 92, 136 80 Z" fill="#ece7dd"/>
+          <path d="M193 74 C 202 86, 202 106, 196 120 C 192 108, 190 92, 184 80 Z" fill="#ece7dd"/>
+          <!-- Arrugas de la frente -->
+          <path d="M144 70 Q160 65 176 70 M147 77 Q160 73 173 77" stroke="#8a5536" stroke-width="1.3" fill="none" opacity=".55"/>
+          <!-- Cejas pobladas -->
+          <path d="M134 89 Q144 79 156 88" stroke="#f3efe7" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+          <path d="M164 88 Q176 79 186 89" stroke="#f3efe7" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+          <!-- Ojos serenos -->
+          <path d="M140 98 Q146 103 152 98" stroke="#3b2a1e" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          <path d="M168 98 Q174 103 180 98" stroke="#3b2a1e" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          <path d="M136 104 l-4 3 M184 104 l4 3" stroke="#8a5536" stroke-width="1.2" opacity=".6"/>
+          <!-- Nariz y mejillas -->
+          <path d="M160 98 Q155 113 159 118 Q164 120 168 116" stroke="#8a5536" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <ellipse cx="141" cy="112" rx="7" ry="4" fill="#d9876a" opacity=".35"/>
+          <ellipse cx="179" cy="112" rx="7" ry="4" fill="#d9876a" opacity=".35"/>
+        </g>
+
+        <!-- Barba larga -->
+        <g class="p-barba">
+          <path d="M127 106 C 120 150, 126 200, 138 250 C 145 290, 150 322, 160 350 C 170 322, 176 290, 182 250 C 194 200, 200 150, 193 106 C 188 126, 177 134, 160 134 C 143 134, 132 126, 127 106 Z" fill="url(#pBarba)"/>
+          <path d="M140 150 C 142 200, 150 260, 156 320 M160 140 C 160 200, 162 260, 160 330 M180 150 C 178 200, 170 260, 164 320 M132 140 C 136 180, 140 220, 146 250 M188 140 C 184 180, 180 220, 174 250" stroke="#b9b1a3" stroke-width="1.6" fill="none" opacity=".75"/>
+          <!-- Bigote -->
+          <path d="M138 124 C 147 114, 156 117, 160 122 C 164 117, 173 114, 182 124 C 174 134, 166 129, 160 127 C 154 129, 146 134, 138 124 Z" fill="#efeae1"/>
+        </g>
+
+      </svg>
+
+      <div class="sabio-nombre">
+        <h3>Pires el Sabio</h3>
+        <p>Guardián de la cueva de los siete pilares</p>
+      </div>
+    </aside>
+
+    <section class="cueva-chat">
+      <header class="cueva-head">
+        <div>
+          <h2 id="cueva-titulo">La Cueva de Pires el Sabio</h2>
+          <p id="cueva-pilar">Pilar actual</p>
+        </div>
+        <button type="button" class="btn-salir" id="btn-salir-cueva">← Salir de la cueva y volver a mi pergamino</button>
+      </header>
+
+      <div class="chat-log" id="chat-log" role="log" aria-live="polite" aria-label="Conversación con Pires el Sabio"></div>
+
+      <div class="chat-sugerencias" role="group" aria-label="Preguntas sugeridas">
+        <button type="button" class="sug">No sé cómo comprometerme con mi pilar</button>
+        <button type="button" class="sug">Dame un consejo para mi vida diaria</button>
+        <button type="button" class="sug">Necesito una palabra de sabiduría</button>
+        <button type="button" class="sug">Me siento agobiado con la U</button>
+      </div>
+
+      <form class="chat-form" id="chat-form" autocomplete="off">
+        <label for="chat-input" class="sr-only">Escribe tu pregunta para Pires</label>
+        <input id="chat-input" type="text" maxlength="500" placeholder="Cuéntale a Pires lo que sientes o tu duda… (ej. «me cuesta la pereza»)">
+        <button type="submit">Hablar</button>
+      </form>
+    </section>
+  </div>
+</dialog>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+
+/* =====================================================================
+   1. DATOS INMUTABLES DEL LIBRO
+   Títulos, juramentos, textos de los votos y citas de los pilares.
+   Se congelan (Object.freeze) y la interfaz nunca los vuelve editables.
+   `corto` y `romano` son solo etiquetas de navegación.
+   ===================================================================== */
+const VOTOS_DATA = deepFreeze([
+  {
+    numero: 1, romano: "I", corto: "Honestidad",
+    voto: "EL PRIMER VOTO",
+    juramento: "JURO SER HONESTO Y RESISTIR LA TENTACIÓN DE MENTIR, ENGAÑAR O ROBAR.",
+    texto: "Vivo en un mundo de compromiso que está removiendo absolutos. Señor, por favor, enséñame a elegir buen nombre en vez de riquezas. Ayúdame a implantar el pilar de la honestidad en mi corazón. Ayúdame a nunca intercambiar mi herencia por gratificación inmediata. Sé que demandas justicia en toda transacción y que estás siguiendo mis decisiones. Dame un corazón honesto y una mente sana que pueda juzgar justa y rectamente. Ayúdame a honrar tu reino, siendo conocido como persona de palabra. Dame el coraje de hacer la diferencia. Cuando vea deshonestidad en mi mundo, ayúdame a influenciar a todos para que entiendan la bendición que viene con la honestidad. Déjame compartir esta verdad con jóvenes y adultos por igual. Me has puesto en un lugar de influencia; ahora dame el coraje para compartir esa influencia en la vida de muchas personas.",
+    pilar: "EL PILAR DE LA HONESTIDAD",
+    cita: "Es mejor ser pobre y honesto, que rico y deshonesto. Un poco ganado honestamente es mejor que una gran riqueza, adquirida por medios deshonestos. Dios demanda justicia en cada transacción de negocios. Él estableció este principio."
+  },
+  {
+    numero: 2, romano: "II", corto: "Generosidad",
+    voto: "EL SEGUNDO VOTO",
+    // Fidelidad textual: así aparece impreso en el libro (ver `nota`).
+    juramento: "JURO SER HONESTO Y RESISTIR LA CODICIA.",
+    nota: "Así aparece impreso en el libro. Por el sentido de este voto y de su pilar, el juramento se lee también como «JURO SER GENEROSO Y RESISTIR LA CODICIA».",
+    texto: "Nuestro mundo se ha olvidado de dar. Yo lo sé; lo he visto, he estado ahí. Mi voto de generosidad abrirá las compuertas de la bendición, no sólo en mi vida, sino también en las naciones. Regando a otros me regaré a mí mismo. Señor, déjame dar con liberalidad porque las cosas se me han dado gratuitamente. Ayúdame a entender tu principio de siembra y cosecha. Multiplica mis esfuerzos mientras aprendo a soltar. ¡Enséñame a soltar! Enséñame lo que el granjero ha aprendido. Ayúdame a soltar la semilla que tengo en mi mano. Ayúdame a sembrar mi tiempo. Haz parecer que hay más horas en cada día. Permíteme entender el principio de los primeros frutos. Al darte a ti primero, mis esfuerzos serán multiplicados. Cuando vea una necesidad, libera en mí el espíritu de la generosidad para satisfacer esa necesidad. Dame ojos para ver las necesidades que me rodean cada día. Dame oídos para escuchar los gritos de los indefensos, de los huérfanos y las viudas. Deja que cada día yo sea un testimonio del pilar de la generosidad. Expulsa de mi vida cualquier sombra de codicia.",
+    pilar: "EL PILAR DE LA GENEROSIDAD",
+    cita: "No seas vanidoso, seguro de tu propia sabiduría. Por el contrario, confía en el Señor, reveréncialo y apártate del mal; si así lo haces, se te renovarán la salud y la vitalidad. Honra al Señor dándole la primera porción de todos tus ingresos y Él llenará tus graneros de trigo y cebada hasta rebosar y tus barriles de los mejores vinos."
+  },
+  {
+    numero: 3, romano: "III", corto: "Trabajo duro",
+    voto: "EL TERCER VOTO",
+    juramento: "JURO TRABAJAR ARDUAMENTE Y RESISTIR LA PEREZA.",
+    texto: "'El más grande es quien sirve. Mi voto de arduo trabajo es fuerte, pero también debo ver la alegría que viene con el servir, haciendo las pequeñas cosas que importan.' Gracias, Señor, por darme otro día para expresar mi regalo para el mundo. Y ¿Cómo haré esto? Trabajando duro, haciendo que cada momento cuente. Déjame elegir ser testimonio de trabajo arduo y de servicio. Déjame elegir dar más de lo que se me pide. No porque lo esté haciendo para el hombre, sino porque lo estoy haciendo para honrar tu principio eterno. Cada día dame la oportunidad de servir. Desarrolla en mí la reputación de ser sirviente; alguien que está constantemente dando más de lo que se le pide. Dame la oportunidad de trabajar y sudar para tu gloria. Que tus bendiciones se manifiesten mientras estoy firme en esta verdad. Arduo trabajo y la habilidad de trabajar arduamente son, ambos, regalos tuyos. Tu Reino será conformado por gente productiva que hará las cosas de corazón, como para ti, Señor.",
+    pilar: "EL PILAR DEL TRABAJO DURO",
+    cita: "La ganancia mal adquirida no produce felicidad duradera: la vida honrada, sí. ¿Conoces a algún hombre trabajador? Tendrá éxito y se codeará con los reyes. Los perezosos empobrecen pronto: los que trabajan empeñosamente se enriquecen. Trabaja con empeño y serás dirigente; sé perezoso y nunca triunfarás. El joven prudente aprovechará la ocasión, pero qué pena da ver al que se duerme y deja pasar la oportunidad."
+  },
+  {
+    numero: 4, romano: "IV", corto: "Humildad",
+    voto: "EL CUARTO VOTO",
+    juramento: "JURO SER HUMILDE Y RESISTIR EL ORGULLO.",
+    texto: "El orgullo se arrastra hacia nuestro interior inesperadamente. Yo debo ser ejemplo de humildad. Señor, ayúdame a ejercitar el rasgo característico de la humildad. Ayúdame a hacer que la gente se sienta importante y amada. Ayúdame a comprender esta verdad: 'La humildad es vista únicamente cuando nos comparamos con tu grandeza'. Tú eres el creador de todo lo que se ve y lo que no se ve. Tú me has dado cada día para que yo pueda mostrar tu amor y preocupación incondicional por todos. Mis ojos han sido abiertos para ver la belleza de la naturaleza. Déjame someterme a ti y pedirte que me guíes en cada transacción personal y de negocios. Toma tu cincel y esculpe tu imagen en mi vida. Juro ser humilde y expulsar el orgullo, que es enemigo de la humildad. Ayúdame a transformarme a tu imagen.",
+    pilar: "EL PILAR DE LA HUMILDAD",
+    cita: "La humildad y la reverencia para con el Señor te traerán sabiduría, honra y larga vida. Cuando el hombre procura agradar a Dios, Dios hace que hasta sus peores enemigos estén en paz con él. Ya que el Señor dirige nuestros pasos, ¿por qué tratar de comprender cuanto ocurre en el camino?"
+  },
+  {
+    numero: 5, romano: "V", corto: "Planificación efectiva",
+    voto: "EL QUINTO VOTO",
+    juramento: "JURO PLANIFICAR CON ANTICIPACIÓN Y RESISTIR LA IMPULSIVIDAD.",
+    texto: "Yo soy un oportunista. Eso puede hacerme impulsivo. Señor, has puesto tu plan en acción desde la fundación de la tierra. Yo reconozco que tú eres el estratega supremo. Entendiste el plan para la humanidad, los tiempos pasados y los que están por venir. Planificaste para la eternidad. Enséñame a hacer lo mismo. Destruye mi impulsividad. Permíteme ser efectivo en la manera que gobierne mi vida. Enséñame a planificar, no sólo en los negocios, sino también a planificar sabiamente para las necesidades de mi familia. Ayúdame a ser conocido como una persona que escribe las cosas y que no confía sólo en la débil memoria. Ayúdame a planificar mi trabajo y luego a trabajar mi plan. Cuando comienzo mis proyectos, ayúdame a seguirlos hasta terminarlos. Permíteme escuchar estas palabras un día: 'Bien hecho, mi fiel y buen sirviente'. Hazme un planificador efectivo. Juro siempre planificar y nunca ser impulsivo otra vez. Ilumina mi alma.",
+    pilar: "EL PILAR DE LA PLANIFICACIÓN EFECTIVA",
+    cita: "Toda empresa y persona tienen por fundamento planes sensatos; se fortalecen mediante el sentido común y prosperan manteniéndose al día en todo."
+  },
+  {
+    numero: 6, romano: "VI", corto: "Sentido común",
+    voto: "EL SEXTO VOTO",
+    juramento: "JURO EJERCER SENTIDO COMÚN Y RESISTIR LA CONFUSIÓN.",
+    texto: "He elegido una manera superior de pensar. Muchas veces mi mundo se ve nublado con áreas de compromiso y confusión. Señor, por favor, dame una mente clara y habilidad para escuchar tu voz de sentido común, clara y concisa. Déjame ver los límites negros y blancos que has puesto ante mí. Que la sabiduría reine en mi corazón para que yo sea capaz de actuar y reaccionar correctamente. Desarrolla mis ojos espirituales para poder ver y mis oídos para poder escuchar tu voz tranquila y humilde. Dame el don del conocimiento de la revelación. Muéstrame que eres el revelador de todas las cosas. En cuanto este voto de sentido común toma control de mi vida, dame la capacidad para que yo pueda juzgar motivos y métodos. Dame percepción y perspicacia que me permitirán ver el motivo detrás de todas las situaciones y eventos. Permíteme juzgar todas las cosas a la luz de la eternidad. Enséñame a escuchar antes de hablar. En tanto que me convierto en una persona de sentido común, permíteme escuchar tu voz de sabiduría.",
+    pilar: "EL PILAR DEL SENTIDO COMÚN",
+    cita: "El hombre que discierne el bien del mal y tiene buen juicio y sentido común, es más feliz que el inmensamente rico, porque su sabiduría es mucho más valiosa que las joyas preciosas."
+  },
+  {
+    numero: 7, romano: "VII", corto: "Dominio propio",
+    voto: "EL SÉPTIMO VOTO",
+    juramento: "JURO TENER DOMINIO PROPIO Y RESISTIR LOS EXCESOS.",
+    texto: "Está dicho que las pequeñas zorras estropearán la vid. Lo mismo puede ser dicho de las palabras, las acciones y elecciones que pueden destruir mi correcta manera de vivir. El exceso destruye individuos, familias y naciones. Los seis votos que he expresado proveerán un cimiento fuerte. ¡El séptimo voto lo protegerá! Señor, ayúdame a ver claramente las trampas del enemigo. Que mi carácter sea mi protección. Que el dominio propio continúe siendo la piedra angular de mi camino. Ayúdame a controlar mis palabras. Restringe mis emociones. Ayúdame a ser rápido para llegar a un acuerdo con mis adversarios. Que mi suave respuesta aleje la ira. Enséñame el poder del dominio propio. Ayúdame a proteger mis sentimientos. Ayúdame a buscar tu voluntad y propósito mientras enfrento cualquier obstáculo o situación. Gracias por desarrollar en mí una vida construida sobre tus pilares del éxito. Que los siete pilares me guíen como una brújula y que los siete votos destruyan a los enemigos de las promesas que ahora he hecho.",
+    pilar: "EL PILAR DEL DOMINIO PROPIO",
+    cita: "El hombre que no se domina se halla tan indefenso como una ciudad sin murallas. No sigas el ejemplo de los malvados. Evita sus guaridas; apártate de ellos, ve a otra parte. Porque los malvados no duermen hasta realizar su fechoría diaria: no pueden reposar antes de hacer que alguien tropiece y caiga. Por sobre todo, guarda tus sentimientos, porque ellos influyen en la totalidad de tu vida."
+  }
+]);
+
+/* =====================================================================
+   1b. COMPROMISOS SUGERIDOS (editables por el usuario)
+   7 acciones cotidianas por pilar para un estudiante universitario en Guatemala.
+   Se precargan solo si el pilar todavía no tiene compromisos propios.
+   ===================================================================== */
+const COMPROMISOS_SUGERIDOS = deepFreeze([
+  [ // I · Honestidad
+    "No copiar ni pasar código o tareas en los proyectos de la universidad.",
+    "Devolver el vuelto exacto si me dan de más en la camioneta, el Transmetro o la tienda.",
+    "Citar mis fuentes y no presentar como mío texto o código copiado de internet o generado por IA.",
+    "No firmar asistencia por un compañero ni pedir que firmen por mí.",
+    "Decirles la verdad a mis papás sobre mis notas y en qué gasto mi dinero.",
+    "Reconocer mis errores ante el catedrático o el grupo sin inventar excusas.",
+    "Cumplir lo que prometo, aunque sea algo pequeño como «te lo paso hoy»."
+  ],
+  [ // II · Generosidad
+    "Explicarle un tema o ayudar a depurar código a un compañero atrasado, sin hacerle la tarea.",
+    "Apartar primero una parte fija de mi dinero para dar, antes de gastar en gustos.",
+    "Compartir mis apuntes y resúmenes con mi grupo de estudio.",
+    "Ceder el asiento en la camioneta o el Transmetro a una persona mayor, embarazada o con niños.",
+    "Dar una hora a la semana para servir: en mi casa, en la iglesia o en un voluntariado.",
+    "Invitar la refacción a alguien que veo que ese día no trae.",
+    "Donar ropa, libros o útiles que ya no uso a quien los necesite."
+  ],
+  [ // III · Trabajo duro
+    "Llegar puntual a clases, incluso a la primera hora, saliendo con tiempo por el tráfico.",
+    "Avanzar en proyectos y laboratorios desde el día que los asignan, no la noche antes.",
+    "Estudiar al menos una hora diaria fuera de clase con el celular en otro cuarto.",
+    "Entregar trabajos revisados y bien presentados, dando más de lo mínimo que piden.",
+    "Hacer mi parte en los trabajos de grupo sin esperar a que otros la hagan.",
+    "Ayudar con las tareas de la casa sin que me lo tengan que pedir.",
+    "Levantarme a la hora que planifiqué, sin posponer la alarma."
+  ],
+  [ // IV · Humildad
+    "Preguntar en clase o en tutoría cuando no entiendo, sin pena de lo que piensen.",
+    "Aceptar las correcciones de catedráticos y compañeros sin justificarme ni enojarme.",
+    "Reconocer en público el aporte de mis compañeros en los proyectos de grupo.",
+    "Escuchar a los demás sin interrumpir ni querer tener siempre la última palabra.",
+    "No presumir mis notas, mis cosas ni mis logros en redes sociales.",
+    "Saludar y tratar con respeto a guardias, conserjes y personal de la universidad.",
+    "Pedir perdón con sinceridad cuando ofenda a alguien."
+  ],
+  [ // V · Planificación efectiva
+    "Organizar mis entregas de la semana antes del domingo por la noche.",
+    "Anotar en mi agenda o app cada tarea, parcial y fecha de entrega el mismo día que la dejan.",
+    "Dividir los proyectos grandes en avances pequeños, cada uno con su fecha.",
+    "Planificar mis gastos de la semana (pasaje, almuerzo, refacción) y respetar ese presupuesto.",
+    "Preparar mochila, cargador y ropa desde la noche anterior.",
+    "Calcular con tiempo la ruta y el tráfico para llegar a clase.",
+    "Estudiar para los parciales con un plan de varios días, no en una sola noche de desvelo."
+  ],
+  [ // VI · Sentido común
+    "Pensar antes de publicar o reenviar algo en redes o en los grupos de WhatsApp.",
+    "Escuchar las dos versiones antes de opinar en un conflicto entre compañeros.",
+    "Dormir lo suficiente antes de un parcial en lugar de desvelarme.",
+    "Cuidar mi seguridad: no sacar el celular en la parada y avisar en casa al salir y al llegar.",
+    "Verificar la información y las fuentes antes de usarlas en un trabajo.",
+    "Pedir consejo a alguien con experiencia antes de decisiones importantes (cursos, trabajo, dinero).",
+    "Elegir con buen criterio mis amistades y mis grupos de trabajo."
+  ],
+  [ // VII · Dominio propio
+    "Limitar redes sociales y videos a un tiempo fijo al día, sobre todo en época de parciales.",
+    "No responder con enojo en los grupos de WhatsApp: esperar y contestar con calma.",
+    "Cuidar lo que como: menos comida chatarra y menos bebidas energizantes para desvelarme.",
+    "No gastar por impulso (antojos, compras en línea) lo que tengo apartado para pasajes o la U.",
+    "Irme a dormir a una hora fija entre semana.",
+    "Hacer ejercicio o caminar al menos tres veces por semana.",
+    "Cuidar mis palabras: nada de groserías, chismes ni burlas hacia otros."
+  ]
+]);
+
+/** Congela un objeto y todo lo que contiene, para que los datos del libro sean de solo lectura. */
+function deepFreeze(obj) {
+  Object.values(obj).forEach(v => { if (v && typeof v === "object") deepFreeze(v); });
+  return Object.freeze(obj);
+}
+
+/* =====================================================================
+   2. CONSTANTES
+   ===================================================================== */
+const STORAGE_KEY = "los7votos.progreso.v1";
+const PRESETS = [7, 10, 14, 21, 30];       // duraciones rápidas (días)
+const MIN_DIAS = 1, MAX_DIAS = 365;
+const N_COMP = 7;                           // 7 líneas de compromiso por pergamino
+const N_PIL = VOTOS_DATA.length;            // 7 pilares
+const PLACEHOLDER = "Escribe aquí una acción concreta para practicar este pilar...";
+
+const ICONS = {
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h6a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H3z"/><path d="M21 5h-6a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h7z"/></svg>',
+  calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>',
+  fuego: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2c1.2 3.2 4.6 5 4.6 9.3A4.6 4.6 0 0 1 7.4 11.6c0-1.7.7-3 1.6-3.9.2 2 1.3 3.1 2.7 3.1-.8-2.9-.6-5.8.3-8.8z"/><path d="M5 20.5h14M7.5 17.5h9" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>'
+};
+
+/* =====================================================================
+   3. UTILIDADES DE FECHA (siempre en hora local, sin desfases de UTC)
+   ===================================================================== */
+const pad = n => String(n).padStart(2, "0");
+const toISO = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+function parseISO(s) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(typeof s === "string" ? s : "");
+  if (!m) return null;
+  const d = new Date(+m[1], +m[2] - 1, +m[3]);
+  return d.getMonth() === +m[2] - 1 ? d : null;   // rechaza fechas como 2026-02-31
+}
+const addDays = (d, n) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+function hoy() { const d = new Date(); return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+const hoyISO = () => toISO(hoy());
+const diffDays = (a, b) =>
+  Math.round((Date.UTC(b.getFullYear(), b.getMonth(), b.getDate()) - Date.UTC(a.getFullYear(), a.getMonth(), a.getDate())) / 86400000);
+const _fmtCorto = new Intl.DateTimeFormat("es", { weekday: "short", day: "numeric", month: "short" });
+const _fmtMedio = new Intl.DateTimeFormat("es", { day: "numeric", month: "short", year: "numeric" });
+const _fmtLargo = new Intl.DateTimeFormat("es", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+const fmtCorto = d => _fmtCorto.format(d).replace(",", "").replace(/\./g, "");
+const fmtMedio = d => _fmtMedio.format(d).replace(/\./g, "");
+const fmtLargo = d => _fmtLargo.format(d);
+const plural = (n, s, p) => `${n} ${n === 1 ? s : p}`;
+
+/* =====================================================================
+   4. ESTADO Y PERSISTENCIA (localStorage)
+   Estructura guardada:
+   { version, config:{fechaInicio:"AAAA-MM-DD", duraciones:[7×n]},
+     pilares:[{ compromisos:[{texto, hecho}×7], lecturas:[bool…] }×7], activo }
+   Las lecturas se guardan por índice de día. Si acortas un pilar, los días
+   sobrantes no se borran: solo dejan de contarse (por si vuelves a alargarlo).
+   ===================================================================== */
+let almacenamientoOK = storageDisponible();
+let state = null;          // se carga en init(), cuando todas las funciones ya están definidas
+let saveTimer = null;
+
+function estadoInicial() {
+  return {
+    version: 1,
+    config: { fechaInicio: hoyISO(), duraciones: Array(N_PIL).fill(7) },
+    pilares: VOTOS_DATA.map((_, i) => ({
+      compromisos: COMPROMISOS_SUGERIDOS[i].map(texto => ({ texto, hecho: false })),
+      lecturas: [],
+      precargado: true    // marca que este pilar ya recibió sus sugerencias iniciales
+    })),
+    activo: null
+  };
+}
+
+const clampDias = v => {
+  const n = Math.round(Number(v));
+  return Number.isFinite(n) ? Math.min(MAX_DIAS, Math.max(MIN_DIAS, n)) : 7;
+};
+
+/** Valida y completa cualquier objeto (guardado o importado) para que tenga la forma correcta. */
+function normalizar(raw) {
+  const base = estadoInicial();
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return base;
+  const cfg = raw.config && typeof raw.config === "object" ? raw.config : {};
+  const fecha = parseISO(cfg.fechaInicio) ? cfg.fechaInicio : base.config.fechaInicio;
+  const duraciones = base.config.duraciones.map((d, i) =>
+    clampDias(Array.isArray(cfg.duraciones) && cfg.duraciones[i] != null ? cfg.duraciones[i] : d));
+  const pilares = base.pilares.map((p, i) => {
+    const src = Array.isArray(raw.pilares) && raw.pilares[i] && typeof raw.pilares[i] === "object" ? raw.pilares[i] : {};
+    let compromisos = p.compromisos.map((c, j) => {
+      const s = Array.isArray(src.compromisos) ? src.compromisos[j] : null;
+      return {
+        texto: s && typeof s.texto === "string" ? s.texto.slice(0, 2000) : "",
+        hecho: !!(s && s.hecho)
+      };
+    });
+    // Datos de la versión anterior (sin marca `precargado`): si el pilar no tiene ningún
+    // compromiso escrito, se precargan las sugerencias. Lo que ya escribiste nunca se toca.
+    if (src.precargado !== true && compromisos.every(c => !c.texto.trim())) {
+      compromisos = compromisos.map((c, j) => ({ texto: COMPROMISOS_SUGERIDOS[i][j], hecho: c.hecho }));
+    }
+    const lecturas = Array.isArray(src.lecturas) ? src.lecturas.slice(0, MAX_DIAS).map(Boolean) : [];
+    return { compromisos, lecturas, precargado: true };
+  });
+  const activo = Number.isInteger(raw.activo) && raw.activo >= 0 && raw.activo < N_PIL ? raw.activo : null;
+  return { version: 1, config: { fechaInicio: fecha, duraciones }, pilares, activo };
+}
+
+function storageDisponible() {
+  try { const k = "__votos_test__"; localStorage.setItem(k, "1"); localStorage.removeItem(k); return true; }
+  catch (e) { return false; }
+}
+
+function cargar() {
+  if (!almacenamientoOK) return estadoInicial();
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) return estadoInicial();
+  try {
+    return normalizar(JSON.parse(raw));
+  } catch (e) {
+    // Datos dañados: se guarda una copia aparte antes de empezar de cero, para no perderlos.
+    console.warn("No se pudo leer el progreso guardado:", e);
+    try { localStorage.setItem(STORAGE_KEY + ".danado." + Date.now(), raw); } catch (_) {}
+    return estadoInicial();
+  }
+}
+
+/** Guarda de inmediato (acciones puntuales: checkboxes, días, configuración). */
+function guardar() {
+  clearTimeout(saveTimer); saveTimer = null;
+  if (!almacenamientoOK) { setSaveStatus("Sin guardado local · usa Exportar", "error"); return; }
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    const t = new Date();
+    setSaveStatus(`Guardado automáticamente · ${pad(t.getHours())}:${pad(t.getMinutes())}`);
+  } catch (e) {
+    almacenamientoOK = false;
+    document.getElementById("aviso-almacenamiento").hidden = false;
+    setSaveStatus("No se pudo guardar · usa Exportar", "error");
+  }
+}
+/** Guarda con un pequeño retraso (mientras escribes en los compromisos). */
+function guardarPronto() {
+  clearTimeout(saveTimer);
+  setSaveStatus("Guardando…", "pendiente");
+  saveTimer = setTimeout(guardar, 400);
+}
+function flush() { if (saveTimer) guardar(); }
+function setSaveStatus(txt, tipo = "") {
+  const el = document.getElementById("save-status");
+  el.textContent = txt;
+  el.className = "save-status" + (tipo ? " " + tipo : "");
+}
+
+/* =====================================================================
+   5. CÁLCULOS: períodos, estadísticas y estados
+   ===================================================================== */
+/** Fechas de un pilar: empieza cuando termina el anterior. */
+function periodo(i, cfg = state.config) {
+  const base = parseISO(cfg.fechaInicio) || hoy();
+  let offset = 0;
+  for (let k = 0; k < i; k++) offset += cfg.duraciones[k];
+  const dur = cfg.duraciones[i];
+  const inicio = addDays(base, offset);
+  return { inicio, fin: addDays(inicio, dur - 1), dur };
+}
+/** Índice (0-based) de hoy dentro del pilar. Puede ser negativo (aún no empieza) o ≥ dur (ya terminó). */
+const indiceHoy = i => diffDays(periodo(i).inicio, hoy());
+
+function stats(i) {
+  const p = state.pilares[i], dur = state.config.duraciones[i];
+  let leidos = 0;
+  for (let d = 0; d < dur; d++) if (p.lecturas[d]) leidos++;
+  const cumplidos = p.compromisos.filter(c => c.hecho).length;
+  const escritos = p.compromisos.filter(c => c.texto.trim()).length;
+  const pctL = (leidos / dur) * 100, pctC = (cumplidos / N_COMP) * 100;
+  return { leidos, dur, cumplidos, escritos, pctL, pctC, pct: (pctL + pctC) / 2 };
+}
+
+/** Pendiente → En progreso → Completado (todas las lecturas + los 7 compromisos). */
+function estadoPilar(i) {
+  const s = stats(i), ih = indiceHoy(i);
+  if (s.leidos === s.dur && s.cumplidos === N_COMP) return { clave: "completado", etiqueta: "Completado" };
+  if (s.leidos || s.cumplidos || s.escritos || (ih >= 0 && ih < s.dur)) return { clave: "progreso", etiqueta: "En progreso" };
+  return { clave: "pendiente", etiqueta: "Pendiente" };
+}
+
+function globales() {
+  let L = 0, T = 0, C = 0;
+  for (let i = 0; i < N_PIL; i++) { const s = stats(i); L += s.leidos; T += s.dur; C += s.cumplidos; }
+  const CT = N_PIL * N_COMP;
+  const pctL = T ? (L / T) * 100 : 0, pctC = (C / CT) * 100;
+  return { L, T, C, CT, pctL, pctC, total: (pctL + pctC) / 2 };
+}
+
+/** Pilar que corresponde a hoy (o el primero / el último si estás antes o después del programa). */
+function pilarSugerido() {
+  for (let i = 0; i < N_PIL; i++) { const ih = indiceHoy(i); if (ih >= 0 && ih < state.config.duraciones[i]) return i; }
+  return indiceHoy(0) < 0 ? 0 : N_PIL - 1;
+}
+
+/* =====================================================================
+   6. RENDER (construcción segura del DOM, sin innerHTML para datos del usuario)
+   ===================================================================== */
+const $ = sel => document.querySelector(sel);
+
+/** Crea un elemento: h("div", {class:"x", onclick:fn}, hijo1, "texto"…) */
+function h(tag, props, ...kids) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(props || {})) {
+    if (v == null || v === false) continue;
+    if (k === "class") el.className = v;
+    else if (k === "html") el.innerHTML = v;              // solo para íconos SVG estáticos
+    else if (k === "value") el.value = v;
+    else if (k === "checked") el.checked = !!v;
+    else if (k.startsWith("on") && typeof v === "function") el.addEventListener(k.slice(2), v);
+    else if (v === true) el.setAttribute(k, "");
+    else el.setAttribute(k, v);
+  }
+  for (const kid of kids.flat(Infinity)) {
+    if (kid == null || kid === false) continue;
+    el.append(kid instanceof Node ? kid : document.createTextNode(String(kid)));
+  }
+  return el;
+}
+const icon = name => h("span", { class: "ico", "aria-hidden": "true", html: ICONS[name] });
+const pct = n => Math.round(n);
+
+function renderTodo() { renderHeader(); renderNav(); renderVoto(); renderPergamino(); }
+
+/* ---------- Header: barra global de integridad ---------- */
+function renderHeader() {
+  const g = globales();
+  const set = (id, val) => { $("#" + id).style.width = val + "%"; };
+  $("#pg-total").textContent = pct(g.total) + "%";
+  $("#pg-lect").textContent = `${g.L}/${g.T} · ${pct(g.pctL)}%`;
+  $("#pg-comp").textContent = `${g.C}/${g.CT} · ${pct(g.pctC)}%`;
+  set("pg-bar", g.total); set("pg-lect-bar", g.pctL); set("pg-comp-bar", g.pctC);
+  $("#pg-bar-wrap").setAttribute("aria-valuenow", pct(g.total));
+  $("#pg-lect-wrap").setAttribute("aria-valuenow", pct(g.pctL));
+  $("#pg-comp-wrap").setAttribute("aria-valuenow", pct(g.pctC));
+}
+
+/* ---------- Navegación de los 7 pilares ---------- */
+function renderNav() {
+  const nav = $("#nav");
+  const conFoco = nav.contains(document.activeElement);
+  nav.replaceChildren(...VOTOS_DATA.map((m, i) => {
+    const st = estadoPilar(i), s = stats(i), activo = i === state.activo;
+    const ih = indiceHoy(i), esHoy = ih >= 0 && ih < s.dur;
+    return h("button", {
+      type: "button", role: "tab", id: `tab-${i}`,
+      class: `tab estado-${st.clave}${activo ? " activo" : ""}`,
+      "aria-selected": String(activo), "aria-controls": "col-voto", tabindex: activo ? "0" : "-1",
+      "aria-label": `Pilar ${i + 1}: ${m.corto}. ${st.etiqueta}${esHoy ? ", pilar de hoy" : ""}. Avance ${pct(s.pct)}%`,
+      onclick: () => seleccionar(i),
+      onkeydown: navKey
+    },
+      h("span", { class: "tab-num", "aria-hidden": "true" }, String(i + 1)),
+      h("span", { class: "tab-body", "aria-hidden": "true" },
+        h("span", { class: "tab-name" }, m.corto),
+        h("span", { class: "tab-status" },
+          h("span", { class: "chip chip-estado" }, st.etiqueta),
+          esHoy ? h("span", { class: "chip chip-hoy" }, "Hoy") : null),
+        h("span", { class: "tab-bar" }, h("span", { style: `width:${s.pct}%` })))
+    );
+  }));
+  if (conFoco) document.getElementById(`tab-${state.activo}`)?.focus();
+}
+
+function navKey(e) {
+  const i = state.activo;
+  const mapa = { ArrowRight: (i + 1) % N_PIL, ArrowLeft: (i - 1 + N_PIL) % N_PIL, Home: 0, End: N_PIL - 1 };
+  if (e.key in mapa) { e.preventDefault(); seleccionar(mapa[e.key], true); }
+}
+
+function seleccionar(i, desdeTeclado = false) {
+  if (i === state.activo) return;
+  flush();
+  state.activo = i;
+  guardar();
+  renderNav(); renderVoto(); renderPergamino();
+  const tab = document.getElementById(`tab-${i}`);
+  if (desdeTeclado) tab.focus();
+  tab.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
+  // Si el contenido quedó por encima de la vista, súbelo para que se vea el nuevo voto.
+  const navH = $(".pilares-nav").offsetHeight;
+  const top = $("#principal").getBoundingClientRect().top;
+  if (top < navH) window.scrollTo({ top: window.scrollY + top - navH - 8, behavior: "smooth" });
+}
+
+/* ---------- Columna izquierda: El Voto ---------- */
+function textoPeriodo(i) {
+  const p = periodo(i), ih = indiceHoy(i);
+  let estado;
+  if (ih >= 0 && ih < p.dur) estado = `Hoy es el día ${ih + 1} de ${p.dur}`;
+  else if (ih < 0) estado = `Comienza en ${plural(-ih, "día", "días")}`;
+  else estado = "Período finalizado";
+  return `${fmtMedio(p.inicio)} – ${fmtMedio(p.fin)} · ${plural(p.dur, "día", "días")} · ${estado}`;
+}
+
+function renderVoto() {
+  const i = state.activo, m = VOTOS_DATA[i];
+  // Pergamino hermano del Pilar: placa grabada + cuerpo de lectura + rodillo inferior
+  const card = h("article", { class: "voto-card", "aria-labelledby": "voto-titulo" },
+    h("header", { class: "placa placa-voto" },
+      ["r1", "r2", "r3", "r4"].map(r => h("span", { class: `rivet ${r}`, "aria-hidden": "true" })),
+      h("div", { class: "placa-num" }, `VOTO ${m.numero} DE ${N_PIL} · LECTURA`),
+      h("h2", { id: "voto-titulo" }, m.voto)),
+    h("div", { class: "voto-body" },
+      h("div", { class: "periodo" }, icon("calendar"), h("span", {}, textoPeriodo(i))),
+      h("blockquote", { class: "juramento" },
+        h("span", { class: "label" }, "Juramento"),
+        h("p", {}, m.juramento)),
+      m.nota ? h("p", { class: "nota-libro" }, m.nota) : null,
+      h("section", { class: "reflexion", "aria-labelledby": "reflexion-titulo" },
+        h("h3", { id: "reflexion-titulo" }, "Texto del voto"),
+        h("p", {}, m.texto)),
+      h("div", { class: "lectura-hoy", id: "lectura-hoy" })),
+    h("div", { class: "rodillo", "aria-hidden": "true" })
+  );
+  $("#col-voto").replaceChildren(card);
+  $("#col-voto").setAttribute("aria-labelledby", `tab-${i}`);
+  renderBotonLectura();
+}
+
+/** Botón principal: marca/desmarca la lectura de HOY dentro del período del pilar. */
+function renderBotonLectura() {
+  const cont = $("#lectura-hoy");
+  if (!cont) return;
+  const i = state.activo, p = periodo(i), d = indiceHoy(i);
+  const teniaFoco = document.activeElement && document.activeElement.id === "btn-lectura-hoy";
+  let btn, ayuda;
+  if (d >= 0 && d < p.dur) {
+    const leido = !!state.pilares[i].lecturas[d];
+    btn = h("button", { type: "button", id: "btn-lectura-hoy", class: "btn-lectura", "aria-pressed": String(leido), onclick: () => toggleDia(i, d) },
+      icon(leido ? "check" : "book"),
+      leido ? `Lectura de hoy registrada · Día ${d + 1}` : `Marcar lectura de hoy · Día ${d + 1}`);
+    ayuda = leido ? "Si te equivocaste, pulsa de nuevo para desmarcarla." : `Hoy es ${fmtLargo(hoy())}.`;
+  } else {
+    btn = h("button", { type: "button", id: "btn-lectura-hoy", class: "btn-lectura", disabled: true }, icon("book"), "Marcar lectura de hoy");
+    ayuda = d < 0
+      ? `Este pilar comienza el ${fmtLargo(p.inicio)}. Puedes leerlo antes; el registro se habilita ese día.`
+      : `El período de este pilar terminó el ${fmtLargo(p.fin)}. Puedes marcar días pasados en el control de lectura del pergamino.`;
+  }
+  cont.replaceChildren(btn, h("p", { class: "lectura-help" }, ayuda));
+  if (teniaFoco && !btn.disabled) btn.focus();
+}
+
+/* ---------- Columna derecha: El Pergamino ---------- */
+function renderPergamino() {
+  const i = state.activo, m = VOTOS_DATA[i], datos = state.pilares[i];
+  edicion.clear();                                   // al cambiar de pilar se cierran las ediciones abiertas
+  const perg = h("article", { class: "pergamino", "aria-labelledby": "pilar-titulo" },
+    h("header", { class: "placa" },
+      ["r1", "r2", "r3", "r4"].map(r => h("span", { class: `rivet ${r}`, "aria-hidden": "true" })),
+      h("div", { class: "placa-num" }, `PILAR ${m.romano}`),
+      h("h2", { id: "pilar-titulo" }, m.pilar),
+      h("p", { class: "placa-cita" }, `“${m.cita}”`)),
+    h("div", { class: "pergamino-body" },
+      h("div", { class: "seccion-head" },
+        h("h3", {}, "Mis 7 compromisos"),
+        h("span", { class: "contador", id: "cont-comp" })),
+      h("p", { class: "seccion-intro" },
+        "Marca la casilla cuando el compromiso ya se haya cumplido o forme parte de tu rutina. Usa el lápiz ✏️ para ajustar cualquier línea a tu realidad."),
+      h("ol", { class: "compromisos", id: "lista-compromisos" }, datos.compromisos.map((_, j) => lineaCompromiso(i, j))),
+      h("button", { type: "button", class: "btn-pires", onclick: abrirCueva },
+        h("span", { class: "pires-ico", "aria-hidden": "true", html: ICONS.fuego }),
+        h("span", {}, "¿No sabes cómo comprometerte? ", h("strong", {}, "Habla con Pires el Sabio")),
+        h("span", { class: "flecha", "aria-hidden": "true" }, "→")),
+      h("div", { class: "seccion-head" },
+        h("h3", {}, "Control de lectura diaria"),
+        h("span", { class: "contador", id: "cont-lect" })),
+      h("div", { class: "dias-grid", id: "dias-grid", role: "group", "aria-label": "Días de lectura del pilar" }),
+      h("p", { class: "leyenda" },
+        h("span", {}, h("i", { class: "sw-leido" }), "Leído"),
+        h("span", {}, h("i", { class: "sw-hoy" }), "Hoy"),
+        h("span", {}, h("i", {}), "Pendiente"),
+        h("span", {}, h("i", { class: "sw-futuro" }), "Aún no llega"))),
+    h("div", { class: "rodillo", "aria-hidden": "true" })
+  );
+  $("#col-pergamino").replaceChildren(perg);
+  renderContadores();
+  renderDias();
+}
+
+/* ---------- Compromisos: modo lectura + edición con lápiz ---------- */
+const edicion = new Set();     // índices de las líneas que están en modo edición (pilar activo)
+
+/**
+ * Una línea del pergamino.
+ * Modo lectura:  [☐] 1  Texto del compromiso ................ ✏️
+ * Modo edición:  [☐] 1  [campo editable]                  ✓  ✕
+ */
+function lineaCompromiso(i, j) {
+  const c = state.pilares[i].compromisos[j];
+  const editando = edicion.has(j);
+  const chk = h("input", {
+    type: "checkbox", checked: c.hecho,
+    onchange: e => {
+      state.pilares[i].compromisos[j].hecho = e.target.checked;
+      li.classList.toggle("hecho", e.target.checked);
+      guardar(); renderContadores(); renderHeader(); renderNav();
+    }
+  });
+  const label = h("label", { class: "check", title: "Marcar como cumplido / integrado en mi rutina" },
+    chk, h("span", { class: "box", html: ICONS.check }),
+    h("span", { class: "sr-only" }, `Compromiso ${j + 1} cumplido`));
+
+  let cuerpo, acciones;
+  if (editando) {
+    cuerpo = h("textarea", {
+      id: `comp-edit-${j}`, rows: "1", maxlength: "2000", placeholder: PLACEHOLDER, value: c.texto,
+      "aria-label": `Editar compromiso ${j + 1}. Enter para guardar, Escape para cancelar`,
+      oninput: e => autoSize(e.target),
+      onkeydown: e => {
+        if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); guardarEdicion(i, j, e.target.value); }
+        else if (e.key === "Escape") { e.preventDefault(); cancelarEdicion(j); }
+      }
+    });
+    acciones = h("span", { class: "comp-acciones" },
+      h("button", { type: "button", class: "btn-icono btn-ok", title: "Guardar (Enter)", "aria-label": `Guardar compromiso ${j + 1}`,
+        html: ICONS.check, onclick: () => guardarEdicion(i, j, cuerpo.value) }),
+      h("button", { type: "button", class: "btn-icono", title: "Cancelar (Esc)", "aria-label": "Cancelar edición",
+        onclick: () => cancelarEdicion(j) }, "✕"));
+  } else {
+    const vacio = !c.texto.trim();
+    cuerpo = h("p", { class: `comp-texto${vacio ? " vacio" : ""}`, ondblclick: () => editarCompromiso(j) },
+      vacio ? "Línea libre · toca el lápiz para escribir tu compromiso" : c.texto);
+    acciones = h("button", { type: "button", class: "btn-lapiz", id: `lapiz-${j}`, title: "Editar este compromiso",
+      "aria-label": `Editar compromiso ${j + 1}` }, h("span", { "aria-hidden": "true" }, "✏️"));
+    acciones.addEventListener("click", () => editarCompromiso(j));
+  }
+  const li = h("li", { class: `comp${c.hecho ? " hecho" : ""}${editando ? " editando" : ""}`, id: `li-comp-${j}` },
+    label, h("span", { class: "comp-num", "aria-hidden": "true" }, String(j + 1)), cuerpo, acciones);
+  return li;
+}
+
+/** Vuelve a dibujar una sola línea (sin tocar las demás ni perder lo que se edita en otras). */
+function refrescarLinea(j, foco) {
+  const viejo = document.getElementById(`li-comp-${j}`);
+  if (!viejo) return;
+  const nuevo = lineaCompromiso(state.activo, j);
+  viejo.replaceWith(nuevo);
+  const ta = nuevo.querySelector("textarea");
+  if (ta) autoSize(ta);
+  if (foco === "campo" && ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
+  if (foco === "lapiz") document.getElementById(`lapiz-${j}`)?.focus();
+}
+function editarCompromiso(j) { edicion.add(j); refrescarLinea(j, "campo"); }
+function cancelarEdicion(j) { edicion.delete(j); refrescarLinea(j, "lapiz"); }
+function guardarEdicion(i, j, valor) {
+  state.pilares[i].compromisos[j].texto = valor.replace(/\s+/g, " ").trim().slice(0, 2000);
+  edicion.delete(j);
+  guardar();
+  refrescarLinea(j, "lapiz");
+  renderContadores(); renderNav();
+}
+
+function autoSize(t) { t.style.height = "auto"; t.style.height = t.scrollHeight + "px"; }
+
+function renderContadores() {
+  const s = stats(state.activo);
+  const cc = $("#cont-comp"), cl = $("#cont-lect");
+  if (cc) cc.textContent = `${s.cumplidos}/${N_COMP} cumplidos · ${s.escritos}/${N_COMP} escritos`;
+  if (cl) cl.textContent = `${s.leidos}/${s.dur} días leídos · ${pct(s.pctL)}%`;
+}
+
+/** Cuadrícula dinámica: tantas casillas como días configurados, con su fecha real. */
+function renderDias() {
+  const grid = $("#dias-grid");
+  if (!grid) return;
+  const i = state.activo, p = periodo(i);
+  const celdas = [];
+  for (let d = 0; d < p.dur; d++) {
+    celdas.push(h("button", {
+      type: "button", class: "dia", dataset: null,
+      onclick: () => toggleDia(i, d)
+    }, h("span", { class: "dia-n" }, `Día ${d + 1}`), h("span", { class: "dia-f" }, fmtCorto(addDays(p.inicio, d)))));
+  }
+  grid.replaceChildren(...celdas);
+  for (let d = 0; d < p.dur; d++) actualizarCelda(d);
+}
+
+/** Actualiza una casilla sin redibujar la cuadrícula (conserva el foco del teclado). */
+function actualizarCelda(d) {
+  const grid = $("#dias-grid");
+  const cel = grid && grid.children[d];
+  if (!cel) return;
+  const i = state.activo, p = periodo(i), ih = indiceHoy(i);
+  const fecha = addDays(p.inicio, d), leido = !!state.pilares[i].lecturas[d];
+  const futuro = d > ih, esHoy = d === ih;
+  cel.className = `dia${leido ? " leido" : ""}${esHoy ? " hoy" : ""}`;
+  cel.disabled = futuro;
+  cel.setAttribute("aria-pressed", String(leido));
+  cel.setAttribute("aria-label", `Día ${d + 1}, ${fmtLargo(fecha)}${esHoy ? ", hoy" : ""}${leido ? ", leído" : futuro ? ", aún no llega" : ", sin leer"}`);
+  cel.title = futuro ? "Este día aún no llega" : leido ? "Leído · clic para desmarcar" : "Clic para marcar como leído";
+}
+
+function toggleDia(i, d) {
+  if (d > indiceHoy(i)) return;                        // no se registran días futuros
+  const lect = state.pilares[i].lecturas;
+  while (lect.length <= d) lect.push(false);
+  lect[d] = !lect[d];
+  guardar();
+  actualizarCelda(d); renderBotonLectura(); renderContadores(); renderHeader(); renderNav();
+}
+
+/* =====================================================================
+   7. CONFIGURAR TIEMPOS (diálogo)
+   Se trabaja sobre un borrador; solo se aplica al pulsar "Guardar".
+   ===================================================================== */
+const dlg = $("#dlg-config");
+let borrador = null;
+
+function abrirConfig() {
+  borrador = { fechaInicio: state.config.fechaInicio, duraciones: [...state.config.duraciones] };
+  $("#cfg-fecha").value = borrador.fechaInicio;
+  $("#cfg-fecha").classList.remove("invalido");
+  dlg.querySelector("details").open = false;
+  renderCfgTabla();
+  dlg.showModal();
+}
+
+function renderCfgChips() {
+  const todosIguales = borrador.duraciones.every(d => d === borrador.duraciones[0]);
+  $("#cfg-chips").replaceChildren(...PRESETS.map(p => h("button", {
+    type: "button", class: `chip-btn${todosIguales && borrador.duraciones[0] === p ? " activo" : ""}`,
+    "aria-pressed": String(todosIguales && borrador.duraciones[0] === p),
+    onclick: () => { borrador.duraciones.fill(p); renderCfgTabla(); }
+  }, p === 7 ? "7 días (libro)" : `${p} días`)));
+}
+
+function renderCfgTabla() {
+  const head = h("div", { class: "cfg-row cfg-head", "aria-hidden": "true" },
+    h("span", {}, "#"), h("span", {}, "Pilar"), h("span", {}, "Duración"), h("span", {}, "Días"), h("span", {}, "Período"));
+  const filas = VOTOS_DATA.map((m, i) => {
+    const d = borrador.duraciones[i];
+    const sel = h("select", {
+      class: "cfg-sel", "aria-label": `Duración del pilar ${m.corto}`,
+      onchange: e => {
+        if (e.target.value === "custom") { num.focus(); num.select(); return; }
+        borrador.duraciones[i] = +e.target.value; num.value = e.target.value; num.classList.remove("invalido");
+        actualizarCfgRangos();
+      }
+    }, PRESETS.map(p => h("option", { value: String(p) }, `${p} días`)), h("option", { value: "custom" }, "Personalizado…"));
+    sel.value = PRESETS.includes(d) ? String(d) : "custom";
+    const num = h("input", {
+      type: "number", class: "cfg-num", min: String(MIN_DIAS), max: String(MAX_DIAS), step: "1", inputmode: "numeric",
+      value: String(d), "aria-label": `Número de días para el pilar ${m.corto} (1 a ${MAX_DIAS})`,
+      oninput: e => {
+        const v = Number(e.target.value);
+        if (Number.isInteger(v) && v >= MIN_DIAS && v <= MAX_DIAS) {
+          borrador.duraciones[i] = v; sel.value = PRESETS.includes(v) ? String(v) : "custom";
+          e.target.classList.remove("invalido");
+        } else e.target.classList.add("invalido");
+        actualizarCfgRangos();
+      }
+    });
+    return h("div", { class: "cfg-row" },
+      h("span", { class: "cfg-n" }, m.romano), h("span", { class: "cfg-name" }, m.corto),
+      sel, num, h("span", { class: "cfg-rango", id: `cfg-rango-${i}` }));
+  });
+  $("#cfg-tabla").replaceChildren(head, ...filas);
+  actualizarCfgRangos();
+}
+
+function actualizarCfgRangos() {
+  renderCfgChips();
+  const fechaOK = !!parseISO(borrador.fechaInicio);
+  for (let i = 0; i < N_PIL; i++) {
+    const el = $(`#cfg-rango-${i}`);
+    if (!fechaOK) { el.textContent = "—"; continue; }
+    const p = periodo(i, borrador);
+    el.textContent = `${fmtMedio(p.inicio)} – ${fmtMedio(p.fin)}`;
+  }
+  const total = borrador.duraciones.reduce((a, b) => a + b, 0);
+  const tot = $("#cfg-total");
+  tot.replaceChildren();
+  if (fechaOK) {
+    const fin = periodo(N_PIL - 1, borrador).fin;
+    tot.append("Programa completo: ", h("b", {}, plural(total, "día", "días")), " · del ",
+      h("b", {}, fmtLargo(parseISO(borrador.fechaInicio))), " al ", h("b", {}, fmtLargo(fin)), ".");
+  } else tot.textContent = "Elige una fecha de inicio válida.";
+}
+
+$("#cfg-fecha").addEventListener("input", e => {
+  borrador.fechaInicio = e.target.value;
+  e.target.classList.toggle("invalido", !parseISO(e.target.value));
+  actualizarCfgRangos();
+});
+
+$("#form-config").addEventListener("submit", e => {
+  e.preventDefault();
+  if (!parseISO(borrador.fechaInicio)) { $("#cfg-fecha").focus(); toast("Elige una fecha de inicio válida.", true); return; }
+  const invalido = dlg.querySelector(".cfg-num.invalido");
+  if (invalido) { invalido.focus(); toast(`Cada pilar debe durar entre ${MIN_DIAS} y ${MAX_DIAS} días.`, true); return; }
+  flush();
+  state.config = { fechaInicio: borrador.fechaInicio, duraciones: borrador.duraciones.map(clampDias) };
+  guardar();
+  dlg.close();
+  renderTodo();
+  toast("Configuración guardada.");
+});
+
+dlg.querySelectorAll("[data-close]").forEach(b => b.addEventListener("click", () => dlg.close()));
+dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });   // clic en el fondo
+
+$("#btn-reset").addEventListener("click", () => {
+  if (!confirm("¿Borrar TODO tu progreso (configuración, compromisos y lecturas)? Esta acción no se puede deshacer.")) return;
+  state = estadoInicial();
+  state.activo = pilarSugerido();
+  guardar();
+  dlg.close();
+  renderTodo();
+  toast("Progreso restablecido.");
+});
+
+/* =====================================================================
+   8. EXPORTAR / IMPORTAR RESPALDO (JSON)
+   ===================================================================== */
+function exportar() {
+  flush();
+  const payload = { app: "los-7-votos-del-exito", formato: 1, exportado: new Date().toISOString(), datos: state };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = h("a", { href: url, download: `respaldo-7-votos-${hoyISO()}.json` });
+  document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+  toast("Respaldo exportado.");
+}
+
+function importar(file) {
+  const input = $("#file-import");
+  const lector = new FileReader();
+  lector.onload = () => {
+    try {
+      const obj = JSON.parse(lector.result);
+      const datos = obj && obj.datos ? obj.datos : obj;          // acepta el formato exportado o el estado directo
+      if (!datos || typeof datos !== "object" || !datos.config || !Array.isArray(datos.pilares)) throw new Error("formato");
+      if (!confirm("Importar este respaldo reemplazará tu progreso actual en este navegador. ¿Continuar?")) return;
+      state = normalizar(datos);
+      if (state.activo == null) state.activo = pilarSugerido();
+      guardar();
+      renderTodo();
+      toast("Respaldo importado correctamente.");
+    } catch (err) {
+      toast("No se pudo importar: el archivo no es un respaldo válido de esta aplicación.", true);
+    } finally {
+      input.value = "";
+    }
+  };
+  lector.onerror = () => { toast("No se pudo leer el archivo.", true); input.value = ""; };
+  lector.readAsText(file);
+}
+
+/* =====================================================================
+   9. VISTA DE IMPRESIÓN / PDF (los 7 módulos con tus compromisos y lecturas)
+   ===================================================================== */
+function renderImpresion() {
+  flush();
+  const g = globales();
+  const inicio = periodo(0).inicio, fin = periodo(N_PIL - 1).fin;
+  const portada = h("section", { class: "pv-portada" },
+    h("h1", {}, "Los 7 Votos del Éxito"),
+    h("p", { class: "pv-sub" }, "Christopher Mayén - 0901-24-1175 · basado en el libro de Néstor Ochoa"),
+    h("p", {}, `Programa: ${fmtLargo(inicio)} – ${fmtLargo(fin)} (${plural(g.T, "día", "días")})`),
+    h("p", {}, `Integridad global: ${pct(g.total)}% · Lecturas ${g.L}/${g.T} (${pct(g.pctL)}%) · Compromisos ${g.C}/${g.CT} (${pct(g.pctC)}%)`),
+    h("table", { class: "pv-resumen" },
+      h("thead", {}, h("tr", {}, ["#", "Pilar", "Período", "Lecturas", "Compromisos", "Estado"].map(t => h("th", {}, t)))),
+      h("tbody", {}, VOTOS_DATA.map((m, i) => {
+        const s = stats(i), p = periodo(i);
+        return h("tr", {},
+          h("td", {}, m.romano), h("td", {}, m.pilar),
+          h("td", {}, `${fmtMedio(p.inicio)} – ${fmtMedio(p.fin)}`),
+          h("td", {}, `${s.leidos}/${s.dur}`), h("td", {}, `${s.cumplidos}/${N_COMP}`),
+          h("td", {}, estadoPilar(i).etiqueta));
+      }))),
+    h("p", { class: "pv-sub", style: "margin-top:10pt" }, `Impreso el ${fmtLargo(hoy())}.`));
+
+  const modulos = VOTOS_DATA.map((m, i) => {
+    const p = periodo(i), s = stats(i), datos = state.pilares[i];
+    const dias = [];
+    for (let d = 0; d < p.dur; d++) {
+      dias.push(h("div", { class: `pv-dia${datos.lecturas[d] ? " leido" : ""}` },
+        h("b", {}, `Día ${d + 1}${datos.lecturas[d] ? " ✓" : ""}`), fmtCorto(addDays(p.inicio, d))));
+    }
+    return h("section", { class: "pv-mod" },
+      h("div", { class: "pv-eyebrow" }, `Voto ${m.numero} · Pilar ${m.romano}`),
+      h("h2", {}, m.voto),
+      h("p", { class: "pv-periodo" }, `${fmtLargo(p.inicio)} – ${fmtLargo(p.fin)} · ${plural(p.dur, "día", "días")}`),
+      h("div", { class: "pv-juramento" }, m.juramento),
+      m.nota ? h("p", { class: "pv-nota" }, m.nota) : null,
+      h("p", { class: "pv-texto" }, m.texto),
+      h("div", { class: "pv-placa" }, h("h3", {}, m.pilar), h("p", {}, `“${m.cita}”`)),
+      h("h4", {}, `Mis 7 compromisos · ${s.cumplidos}/${N_COMP} cumplidos`),
+      h("ol", { class: "pv-comp" }, datos.compromisos.map((c, j) => h("li", {},
+        h("span", { class: "pv-box" }, c.hecho ? "✓" : ""),
+        h("span", { class: c.texto.trim() ? "" : "pv-vacio" }, `${j + 1}. ${c.texto.trim() || "______________________________________________"}`)))),
+      h("h4", {}, `Control de lectura diaria · ${s.leidos}/${s.dur} días`),
+      h("div", { class: "pv-dias" }, dias));
+  });
+  $("#print-view").replaceChildren(portada, ...modulos);
+}
+
+/* =====================================================================
+   10. TOAST (mensajes breves)
+   ===================================================================== */
+let toastTimer = null;
+function toast(msg, error = false) {
+  const t = $("#toast");
+  t.textContent = msg;
+  t.classList.toggle("error", error);
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove("show"), 3400);
+}
+
+/* =====================================================================
+   10b. LA CUEVA DE PIRES EL SABIO — motor de respuestas
+   Detecta el pilar activo y palabras clave del mensaje; responde con una
+   cita bíblica (Reina-Valera 1960) y 2–3 acciones concretas adoptables.
+   ===================================================================== */
+const PIRES_SALUDO = "Bienvenido a mi morada, joven buscador de integridad. ¿Cómo puedo ayudarte hoy?";
+
+/** Sabiduría por pilar (índice 0–6). */
+const PIRES_PILARES = deepFreeze([
+  { // I · Honestidad
+    tema: "la honestidad",
+    diagnostico: "La mentira siempre promete ahorrarte un problema y siempre termina cobrándote el doble. Copiar una tarea parece algo pequeño, pero entrena al corazón a buscar atajos; y quien se acostumbra a los atajos termina perdiendo el camino.",
+    consejo: "Hoy vigila tus palabras pequeñas: el «ya casi llego», el «sí lo hice», el «no me di cuenta». La integridad se construye en lo diminuto, donde nadie más mira.",
+    versos: [
+      { ref: "Proverbios 11:1", txt: "El peso falso es abominación a Jehová; mas la pesa cabal le agrada.", medita: "Dios mira la balanza de tus tratos diarios, aun los de un quetzal de vuelto." },
+      { ref: "Proverbios 22:1", txt: "De más estima es el buen nombre que las muchas riquezas, y la buena fama más que la plata y el oro.", medita: "Tu nombre vale más que cualquier nota conseguida con trampa." },
+      { ref: "Efesios 4:25", txt: "Por lo cual, desechando la mentira, hablad verdad cada uno con su prójimo; porque somos miembros los unos de los otros.", medita: "Decir la verdad también es una forma de amar a quienes te rodean." },
+      { ref: "Lucas 16:10", txt: "El que es fiel en lo muy poco, también en lo más es fiel; y el que en lo muy poco es injusto, también en lo más es injusto.", medita: "Lo que haces con lo poco de hoy revela quién serás con lo mucho de mañana." },
+      { ref: "Proverbios 12:22", txt: "Los labios mentirosos son abominación a Jehová; pero los que hacen verdad son su contentamiento.", medita: "Hacer la verdad es más que decirla: es vivirla en cada entrega y cada trato." }
+    ],
+    ideas: [
+      "Si no terminé una tarea, decírselo con honestidad al catedrático en vez de inventar una excusa.",
+      "Revisar que mis reportes y laboratorios estén hechos con mis propias palabras y mi propio código.",
+      "Pagar mi pasaje y lo que consumo aunque nadie me esté viendo.",
+      "Corregir a tiempo cuando alguien me atribuye un mérito que no es mío.",
+      "Ser transparente en los trabajos de grupo sobre lo que sí hice y lo que no."
+    ]
+  },
+  { // II · Generosidad
+    tema: "la generosidad",
+    diagnostico: "La codicia susurra que nunca tienes suficiente para dar. Pero la semilla que guardas en el puño no da fruto; solo la que sueltas en la tierra se multiplica. Y no hablo solo de dinero: tu tiempo y lo que sabes también son semilla.",
+    consejo: "Hoy busca una necesidad pequeña a tu alrededor y súplela sin esperar que te lo agradezcan. El dador alegre no lleva cuentas.",
+    versos: [
+      { ref: "Proverbios 11:25", txt: "El alma generosa será prosperada; y el que saciare, él también será saciado.", medita: "Regando a otros, tu propia vida se riega." },
+      { ref: "Hechos 20:35", txt: "Más bienaventurado es dar que recibir.", medita: "La alegría de dar dura más que la alegría de recibir." },
+      { ref: "2 Corintios 9:7", txt: "Cada uno dé como propuso en su corazón: no con tristeza, ni por necesidad, porque Dios ama al dador alegre.", medita: "Decide de antemano cuánto darás; así la generosidad deja de ser impulso y se vuelve carácter." },
+      { ref: "Proverbios 3:9", txt: "Honra a Jehová con tus bienes, y con las primicias de todos tus frutos.", medita: "Lo primero que apartas revela lo que más honras." },
+      { ref: "Gálatas 6:2", txt: "Sobrellevad los unos las cargas de los otros, y cumplid así la ley de Cristo.", medita: "A veces dar es simplemente quedarte a ayudar a alguien con su carga." }
+    ],
+    ideas: [
+      "Enseñarle a un compañero una herramienta o un lenguaje que yo ya domino.",
+      "Escribirle un mensaje de ánimo a alguien que está teniendo un semestre difícil.",
+      "Ayudar a mi familia con algo de la casa sin pedir nada a cambio.",
+      "Dar con alegría una ofrenda o donación fija cada mes, aunque sea pequeña.",
+      "Prestar mis libros y materiales con gusto y sin reclamar."
+    ]
+  },
+  { // III · Trabajo duro
+    tema: "el trabajo duro",
+    diagnostico: "La pereza no llega gritando; llega diciendo «solo cinco minutos más», «mañana lo empiezo», «todavía hay tiempo». Y así, sin hacer ruido, se roba tus días. Pero escucha: la diligencia no es fuerza bruta, es constancia.",
+    consejo: "Hoy empieza por la tarea que más te pesa. Diez minutos de comienzo valen más que una hora de buenas intenciones.",
+    versos: [
+      { ref: "Colosenses 3:23", txt: "Y todo lo que hagáis, hacedlo de corazón, como para el Señor y no para los hombres.", medita: "Cuando trabajas para Dios, ninguna tarea es demasiado pequeña para hacerla bien." },
+      { ref: "Proverbios 6:6", txt: "Ve a la hormiga, oh perezoso, mira sus caminos, y sé sabio.", medita: "La hormiga no espera ganas: trabaja porque sabe que el invierno llega." },
+      { ref: "Proverbios 10:4", txt: "La mano negligente empobrece; mas la mano de los diligentes enriquece.", medita: "La diligencia de hoy es la cosecha de mañana." },
+      { ref: "Proverbios 22:29", txt: "¿Has visto hombre solícito en su trabajo? Delante de los reyes estará; no estará delante de los de baja condición.", medita: "El trabajo bien hecho abre puertas que ningún atajo abre." },
+      { ref: "Eclesiastés 9:10", txt: "Todo lo que te viniere a la mano para hacer, hazlo según tus fuerzas.", medita: "No guardes tu esfuerzo para un día que quizá no llegue." }
+    ],
+    ideas: [
+      "Estudiar en bloques de 25 minutos con 5 de descanso (técnica Pomodoro).",
+      "Empezar cada proyecto el mismo día que lo asignan, aunque sea solo con el esquema.",
+      "Dejar el celular lejos mientras estudio o programo.",
+      "Repasar los apuntes del día antes de dormir, aunque sean 15 minutos.",
+      "Terminar lo que empiezo antes de abrir otra tarea."
+    ]
+  },
+  { // IV · Humildad
+    tema: "la humildad",
+    diagnostico: "El orgullo es un velo: no te deja ver tus propios errores ni las virtudes de los demás. El humilde no es el que piensa menos de sí mismo, sino el que piensa menos en sí mismo.",
+    consejo: "Hoy pregunta algo que no sabes y agradece a quien te corrija. Ahí empieza la sabiduría.",
+    versos: [
+      { ref: "Santiago 4:6", txt: "Dios resiste a los soberbios, y da gracia a los humildes.", medita: "La gracia corre como el agua: siempre hacia el lugar más bajo." },
+      { ref: "Proverbios 16:18", txt: "Antes del quebrantamiento es la soberbia, y antes de la caída la altivez de espíritu.", medita: "El orgullo siempre camina un paso delante de la caída." },
+      { ref: "Filipenses 2:3", txt: "Nada hagáis por contienda o por vanagloria; antes bien con humildad, estimando cada uno a los demás como superiores a él mismo.", medita: "Busca hoy algo valioso en cada persona con la que hables." },
+      { ref: "Proverbios 22:4", txt: "Riquezas, honra y vida son la remuneración de la humildad y del temor de Jehová.", medita: "Lo que el orgulloso persigue, al humilde le llega como fruto." },
+      { ref: "Miqueas 6:8", txt: "Oh hombre, él te ha declarado lo que es bueno, y qué pide Jehová de ti: solamente hacer justicia, y amar misericordia, y humillarte ante tu Dios.", medita: "Tres cosas sencillas que bastan para toda una vida." },
+      { ref: "1 Pedro 5:6", txt: "Humillaos, pues, bajo la poderosa mano de Dios, para que él os exalte cuando fuere tiempo.", medita: "No necesitas levantarte a ti mismo; a su tiempo serás levantado." }
+    ],
+    ideas: [
+      "Pedir retroalimentación sobre mi trabajo y escucharla sin defenderme.",
+      "Agradecer en voz alta a alguien que me ayudó esta semana.",
+      "Ceder la palabra en las reuniones de grupo y valorar las ideas de otros.",
+      "Decir «no lo sé» cuando no sé algo, en lugar de aparentar.",
+      "Servir en algo que nadie ve: ordenar, limpiar o ayudar sin buscar reconocimiento."
+    ]
+  },
+  { // V · Planificación efectiva
+    tema: "la planificación",
+    diagnostico: "Quien no planifica deja que la urgencia decida por él. Y la urgencia es mala consejera: siempre grita, nunca piensa. Escribir tus planes no es atarte; es darte libertad.",
+    consejo: "Esta noche dedica diez minutos a escribir lo que harás mañana, en orden de importancia. La mente descansa cuando el papel recuerda.",
+    versos: [
+      { ref: "Proverbios 16:3", txt: "Encomienda a Jehová tus obras, y tus pensamientos serán afirmados.", medita: "Planifica con diligencia, pero entrégale el plan a Dios." },
+      { ref: "Proverbios 21:5", txt: "Los pensamientos del diligente ciertamente tienden a la abundancia; mas todo el que se apresura alocadamente, de cierto va a la pobreza.", medita: "La prisa sin plan es el camino más largo." },
+      { ref: "Lucas 14:28", txt: "Porque ¿quién de vosotros, queriendo edificar una torre, no se sienta primero y calcula los gastos, a ver si tiene lo que necesita para acabarla?", medita: "Sentarse a calcular no es perder tiempo; es asegurar que terminarás." },
+      { ref: "Proverbios 16:9", txt: "El corazón del hombre piensa su camino; mas Jehová endereza sus pasos.", medita: "Tú trazas el mapa; Él corrige el rumbo." },
+      { ref: "Efesios 5:15-16", txt: "Mirad, pues, con diligencia cómo andéis, no como necios sino como sabios, aprovechando bien el tiempo, porque los días son malos.", medita: "Cada hora es un talento que se invierte o se entierra." },
+      { ref: "Habacuc 2:2", txt: "Y Jehová me respondió, y dijo: Escribe la visión, y declárala en tablas, para que corra el que leyere en ella.", medita: "Lo que se escribe con claridad se puede seguir con paso firme." }
+    ],
+    ideas: [
+      "Usar un calendario digital con todas mis fechas de parciales y entregas.",
+      "Revisar cada mañana mis tres prioridades del día.",
+      "Reservar bloques fijos en mi semana para estudiar cada curso.",
+      "Hacer un presupuesto mensual de mis gastos de la U y de transporte.",
+      "Dejar listo cada domingo el plan de la semana."
+    ]
+  },
+  { // VI · Sentido común
+    tema: "el sentido común",
+    diagnostico: "La confusión crece cuando decidimos con prisa, con enojo o escuchando una sola voz. El sentido común es una mente quieta que mira las cosas a la luz de lo eterno, y no solo del momento.",
+    consejo: "Antes de decidir algo hoy, pregúntate: ¿qué consecuencias tendrá esto en una semana? ¿Y en un año?",
+    versos: [
+      { ref: "Santiago 1:5", txt: "Y si alguno de vosotros tiene falta de sabiduría, pídala a Dios, el cual da a todos abundantemente y sin reproche, y le será dada.", medita: "Pedir sabiduría no es debilidad; es el primer acto sabio." },
+      { ref: "Santiago 1:19", txt: "Por esto, mis amados hermanos, todo hombre sea pronto para oír, tardo para hablar, tardo para airarse.", medita: "Dos oídos y una boca: escucha el doble de lo que hablas." },
+      { ref: "Proverbios 3:5-6", txt: "Fíate de Jehová de todo tu corazón, y no te apoyes en tu propia prudencia. Reconócelo en todos tus caminos, y él enderezará tus veredas.", medita: "Tu entendimiento es una lámpara pequeña; apóyate en la luz mayor." },
+      { ref: "Proverbios 15:22", txt: "Los pensamientos son frustrados donde no hay consejo; mas en la multitud de consejeros se afirman.", medita: "Las decisiones grandes no se toman a solas." },
+      { ref: "Proverbios 4:7", txt: "Sabiduría ante todo; adquiere sabiduría; y sobre todas tus posesiones adquiere inteligencia.", medita: "Ninguna inversión rinde tanto como la sabiduría." },
+      { ref: "Proverbios 13:20", txt: "El que anda con sabios, sabio será; mas el que se junta con necios será quebrantado.", medita: "Dime con quién caminas y te diré hacia dónde vas." }
+    ],
+    ideas: [
+      "Escribir pros y contras antes de una decisión importante.",
+      "Esperar 24 horas antes de decidir algo cuando estoy enojado o triste.",
+      "Pedir consejo a dos personas sabias antes de cambiar de carrera, de trabajo o de rumbo.",
+      "Leer un capítulo de Proverbios al día mientras trabajo este pilar.",
+      "Alejarme de conversaciones y grupos que me empujan a hacer lo que sé que no conviene."
+    ]
+  },
+  { // VII · Dominio propio
+    tema: "el dominio propio",
+    diagnostico: "El carácter es como un caballo fuerte: sin rienda te arrastra, con rienda te lleva lejos. No se trata de no sentir enojo o deseos, sino de que tú tomes las riendas y no ellos.",
+    consejo: "Hoy, antes de reaccionar, respira y cuenta hasta diez. La pausa es el primer escalón del dominio propio.",
+    versos: [
+      { ref: "Proverbios 16:32", txt: "Mejor es el que tarda en airarse que el fuerte; y el que se enseñorea de su espíritu, que el que toma una ciudad.", medita: "La conquista más difícil es la de uno mismo." },
+      { ref: "Proverbios 25:28", txt: "Como ciudad derribada y sin muro es el hombre cuyo espíritu no tiene rienda.", medita: "El dominio propio es la muralla que protege todo lo demás." },
+      { ref: "Gálatas 5:22-23", txt: "Mas el fruto del Espíritu es amor, gozo, paz, paciencia, benignidad, bondad, fe, mansedumbre, templanza; contra tales cosas no hay ley.", medita: "La templanza no se fabrica a la fuerza; crece como fruto cuando el corazón está bien plantado." },
+      { ref: "Proverbios 15:1", txt: "La blanda respuesta quita la ira; mas la palabra áspera hace subir el furor.", medita: "Tu tono puede apagar un incendio o avivarlo." },
+      { ref: "1 Corintios 10:13", txt: "No os ha sobrevenido ninguna tentación que no sea humana; pero fiel es Dios, que no os dejará ser tentados más de lo que podéis resistir, sino que dará también juntamente con la tentación la salida, para que podáis soportar.", medita: "En cada tentación hay una puerta de salida; búscala a tiempo." },
+      { ref: "Proverbios 4:23", txt: "Sobre toda cosa guardada, guarda tu corazón; porque de él mana la vida.", medita: "Cuida lo que dejas entrar a tu mente y a tu corazón." },
+      { ref: "2 Timoteo 1:7", txt: "Porque no nos ha dado Dios espíritu de cobardía, sino de poder, de amor y de dominio propio.", medita: "El dominio propio ya fue sembrado en ti; solo falta ejercitarlo." }
+    ],
+    ideas: [
+      "Activar un límite de tiempo de pantalla en las apps que más me distraen.",
+      "Cuando me enoje, salir a caminar cinco minutos antes de responder.",
+      "No llevar el celular a la cama.",
+      "Escribir lo que siento antes de decirlo cuando estoy molesto.",
+      "Decir «no» con firmeza a planes que me alejan de mis metas."
+    ]
+  }
+]);
+
+const PIRES_GENERAL = deepFreeze({
+  versos: [
+    { ref: "Salmos 119:105", txt: "Lámpara es a mis pies tu palabra, y lumbrera a mi camino.", medita: "No necesitas ver todo el camino; basta la luz para el siguiente paso." },
+    { ref: "Salmos 90:12", txt: "Enséñanos de tal modo a contar nuestros días, que traigamos al corazón sabiduría.", medita: "Quien cuenta sus días aprende a no desperdiciarlos." },
+    { ref: "Romanos 12:2", txt: "No os conforméis a este siglo, sino transformaos por medio de la renovación de vuestro entendimiento, para que comprobéis cuál sea la buena voluntad de Dios, agradable y perfecta.", medita: "El carácter cambia cuando cambia la manera de pensar." },
+    { ref: "Proverbios 24:16", txt: "Porque siete veces cae el justo, y vuelve a levantarse; mas los impíos caerán en el mal.", medita: "El justo no es el que nunca cae, sino el que siempre se levanta." },
+    { ref: "Lamentaciones 3:22-23", txt: "Por la misericordia de Jehová no hemos sido consumidos, porque nunca decayeron sus misericordias. Nuevas son cada mañana; grande es tu fidelidad.", medita: "Cada mañana trae una página en blanco para cumplir tus votos." },
+    { ref: "Josué 1:9", txt: "Mira que te mando que te esfuerces y seas valiente; no temas ni desmayes, porque Jehová tu Dios estará contigo en dondequiera que vayas.", medita: "El valor no es ausencia de miedo, sino compañía en medio de él." },
+    { ref: "Salmos 37:5", txt: "Encomienda a Jehová tu camino, y confía en él; y él hará.", medita: "Haz tu parte con fidelidad y deja el resto en manos de Dios." }
+  ],
+  animo: [
+    { ref: "Filipenses 4:6", txt: "Por nada estéis afanosos, sino sean conocidas vuestras peticiones delante de Dios en toda oración y ruego, con acción de gracias.", medita: "Convierte cada preocupación en una oración." },
+    { ref: "Mateo 11:28", txt: "Venid a mí todos los que estáis trabajados y cargados, y yo os haré descansar.", medita: "El descanso también es parte del camino." },
+    { ref: "Isaías 41:10", txt: "No temas, porque yo estoy contigo; no desmayes, porque yo soy tu Dios que te esfuerzo; siempre te ayudaré, siempre te sustentaré con la diestra de mi justicia.", medita: "No caminas solo, ni siquiera en la semana de parciales." },
+    { ref: "Filipenses 4:13", txt: "Todo lo puedo en Cristo que me fortalece.", medita: "La fuerza que te falta no tiene que salir solo de ti." }
+  ],
+  ideasAnimo: [
+    "Escribir en una lista todo lo pendiente y elegir solo lo primero para hoy.",
+    "Salir a caminar 15 minutos sin el celular para despejar la mente.",
+    "Hablar con alguien de confianza (familia, un amigo, un catedrático o un consejero) sobre cómo me siento.",
+    "Dormir al menos siete horas esta noche, aunque quede algo pendiente.",
+    "Escribir en una hoja lo que me preocupa y entregárselo a Dios en oración."
+  ],
+  cercano: { ref: "Salmos 34:18", txt: "Cercano está Jehová a los quebrantados de corazón; y salva a los contritos de espíritu." },
+  bendicion: { ref: "Números 6:24-26", txt: "Jehová te bendiga, y te guarde; Jehová haga resplandecer su rostro sobre ti, y tenga de ti misericordia; Jehová alce sobre ti su rostro, y ponga en ti paz." },
+  cierres: [
+    "Recuerda: no se trata de ser perfecto, sino de ser fiel un día más.",
+    "Un paso pequeño, repetido con fe, abre caminos que la prisa nunca encuentra.",
+    "El carácter no se hereda ni se compra; se forja día tras día, como el hierro en el fuego.",
+    "Vuelve a esta cueva cuando lo necesites. El fuego siempre estará encendido.",
+    "Lo que siembras en lo secreto, un día florece a la vista de todos."
+  ]
+});
+
+/* Palabras clave (sin tildes; se comparan como inicio de palabra) */
+const KW = {
+  crisis: ["suicid", "quitarme la vida", "no quiero vivir", "matarme", "hacerme dano", "acabar con todo", "morirme", "autolesi", "cortarme"],
+  animo: ["estres", "ansied", "ansios", "agobi", "cansad", "agotad", "triste", "deprim", "me siento solo", "me siento sola", "soledad", "miedo", "preocup", "presion", "abrum", "no puedo mas", "desanim", "frustr", "reprob", "perdi el curso", "perdi un curso"],
+  comprometer: ["compromet", "compromiso", "que poner", "que escribir", "que pongo", "no se como empezar", "pergamino", "ideas para"],
+  consejo: ["consejo", "vida diaria", "dia a dia", "diario", "rutina", "que hago hoy"],
+  sabiduria: ["sabiduria", "palabra", "versiculo", "biblia", "cita", "reflexion", "proverbio", "salmo", "ensename"],
+  gracias: ["gracias", "te agradezco", "bendiciones", "adios", "hasta luego", "me voy"],
+  saludo: ["hola", "buenas", "buenos dias", "saludos", "que tal"]
+};
+const KW_PILAR = [
+  ["menti", "mentir", "mentira", "copi", "plagi", "trampa", "chivo", "engan", "robar", "robo", "honest", "verdad"],
+  ["egois", "codici", "tacan", "generos", "compartir", "donar", "ofrenda", "diezmo", "envidi", "avaric", "dinero", "dar\\b"],
+  ["perez", "flojer", "flojo", "floja", "hueva", "procrastin", "posterg", "ultimo momento", "desmotiv", "no tengo ganas", "sin ganas", "me cuesta estudiar", "diligen", "esfuerz", "trabajo duro"],
+  ["orgull", "soberbi", "presum", "arrogan", "ego\\b", "humild", "creido", "me corrigen", "correcci", "pedir perdon"],
+  ["desorden", "desorganiz", "organiz", "planific", "tiempo", "agenda", "entrega", "olvid", "horario", "calendario", "fechas", "impulsiv"],
+  ["confus", "confundid", "decisi", "decidir", "no se que hacer", "duda", "elegir", "carrera", "criterio", "malas juntas", "amistades", "sentido comun", "discern"],
+  ["enoj", "ira\\b", "caracter", "temperamento", "celular", "redes", "tiktok", "instagram", "videos", "adicc", "vicio", "autocontrol", "control", "impulso", "tentaci", "explot", "grit", "comida", "dominio", "alcohol", "guaro"]
+];
+
+const norm = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/\s+/g, " ").trim();
+const _regex = new Map();
+function coincide(t, lista) {
+  const clave = lista.join("|");
+  if (!_regex.has(clave)) _regex.set(clave, new RegExp("(?:^|[^a-z0-9ñ])(?:" + lista.join("|") + ")"));
+  return _regex.get(clave).test(t);
+}
+function detectarPilar(t) {
+  let mejor = null, puntos = 0;
+  KW_PILAR.forEach((lista, i) => {
+    const n = lista.filter(k => coincide(t, [k])).length;
+    if (n > puntos || (n === puntos && n > 0 && i === state.activo)) { mejor = i; puntos = n; }
+  });
+  return mejor;
+}
+
+const azar = arr => arr[Math.floor(Math.random() * arr.length)];
+function barajar(arr) { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+const versosUsados = new Set();
+function elegirVerso(lista) {
+  let libres = lista.filter(v => !versosUsados.has(v.ref));
+  if (!libres.length) { lista.forEach(v => versosUsados.delete(v.ref)); libres = lista; }
+  const v = azar(libres); versosUsados.add(v.ref); return v;
+}
+/** Ideas para un pilar que aún no estén escritas en el pergamino abierto. */
+function elegirIdeas(p, n, fuente) {
+  const ya = new Set(state.pilares[state.activo].compromisos.map(c => norm(c.texto)));
+  const pool = fuente || [...PIRES_PILARES[p].ideas, ...COMPROMISOS_SUGERIDOS[p]];
+  return barajar(pool.filter(x => !ya.has(norm(x)))).slice(0, n);
+}
+const nombrePilar = p => `Pilar ${VOTOS_DATA[p].romano} · ${VOTOS_DATA[p].corto}`;
+
+/* --- Piezas de una respuesta --- */
+const P = txt => h("p", {}, txt);
+const bloqueVerso = v => h("blockquote", { class: "versiculo" }, `«${v.txt}»`, h("cite", {}, `${v.ref} (RVR1960)`));
+function bloqueIdeas(lista) {
+  return h("ul", { class: "ideas" }, lista.map(idea => {
+    const slot = h("span", {});
+    slot.append(h("button", { type: "button", class: "btn-usar", onclick: () => usarIdea(idea, slot) }, "＋ Usar esta idea en mi pergamino"));
+    return h("li", {}, h("span", {}, idea), slot);
+  }));
+}
+
+/* --- Tipos de respuesta --- */
+function respComprometer(p, otro) {
+  const d = PIRES_PILARES[p];
+  return [
+    P(`Un compromiso no es un buen deseo, joven: es una acción pequeña y concreta que puedes cumplir hoy y repetir mañana. ${otro ? `Lo que me cuentas toca ${d.tema}.` : `Estás trabajando ${d.tema}.`} Mira dónde se prueba tu carácter cada día: en la U, en la camioneta, en tu casa y en tu teléfono.`),
+    bloqueVerso(elegirVerso(d.versos)),
+    P("Comienza con estas ideas. Si alguna resuena en tu corazón, llévala a tu pergamino:"),
+    bloqueIdeas(elegirIdeas(p, 3)),
+    P("Escríbelas con verbos claros —«haré», «no haré», «entregaré»— y con un momento y un lugar. Lo que se escribe con claridad se cumple con más facilidad.")
+  ];
+}
+function respTema(p) {
+  const d = PIRES_PILARES[p], nodos = [
+    P(d.diagnostico),
+    bloqueVerso(elegirVerso(d.versos)),
+    P("Te propongo esto para los próximos días:"),
+    bloqueIdeas(elegirIdeas(p, 3)),
+    P(azar(PIRES_GENERAL.cierres))
+  ];
+  if (p !== state.activo) nodos.push(h("p", { class: "escribiendo" }, `(Esto pertenece al ${nombrePilar(p)}. Si adoptas una idea, la escribiré en el pergamino que tienes abierto: ${nombrePilar(state.activo)}.)`));
+  return nodos;
+}
+function respConsejo(p) {
+  const d = PIRES_PILARES[p];
+  return [P(d.consejo), bloqueVerso(elegirVerso(d.versos)), P("Y para tu día de hoy:"), bloqueIdeas(elegirIdeas(p, 2)), P(azar(PIRES_GENERAL.cierres))];
+}
+function respSabiduria(p) {
+  const v = elegirVerso(Math.random() < .5 ? PIRES_PILARES[p].versos : PIRES_GENERAL.versos);
+  return [
+    P(azar(["Acércate al fuego y escucha esta palabra antigua:", "Hay palabras que no envejecen. Guarda esta en tu corazón:", "Cierra los ojos un momento y escucha:"])),
+    bloqueVerso(v), P(v.medita),
+    P("Para que esta palabra no se quede en el aire, puedes practicarla así:"),
+    bloqueIdeas(elegirIdeas(p, 2))
+  ];
+}
+function respAnimo() {
+  return [
+    P(azar([
+      "Siéntate un momento junto al fuego. Veo que traes una carga pesada, y no tienes que fingir que no pesa.",
+      "Hasta el roble más fuerte se dobla con el viento; lo importante es que sus raíces sigan firmes. Respira hondo, joven."
+    ])),
+    bloqueVerso(elegirVerso(PIRES_GENERAL.animo)),
+    P("Unas cosas sencillas que puedes hacer hoy:"),
+    bloqueIdeas(elegirIdeas(state.activo, 3, PIRES_GENERAL.ideasAnimo)),
+    P("Y no cargues solo: busca a alguien de confianza —tu familia, un amigo, un catedrático o un consejero de la universidad— y cuéntale cómo estás. Pedir ayuda también es sabiduría.")
+  ];
+}
+function respCrisis() {
+  return [
+    P("Lo que me dices es muy serio, y me importa mucho que estés a salvo."),
+    P("No tienes que cargar esto solo. Por favor, habla hoy mismo con alguien de confianza —tu familia, un amigo, un pastor o un profesional de salud mental— y cuéntale lo que me acabas de decir. Si sientes que estás en peligro ahora, llama a los servicios de emergencia o ve al centro de salud más cercano."),
+    bloqueVerso(PIRES_GENERAL.cercano),
+    P("Esta cueva es solo un rincón para reflexionar; las personas que te quieren pueden acompañarte de verdad. Aquí estaré cuando vuelvas.")
+  ];
+}
+function respGeneral(p) {
+  const d = PIRES_PILARES[p];
+  return [
+    P(`Escucho lo que hay en tu corazón. No tengo todas las respuestas, pero sí una lámpara para el camino de ${d.tema}.`),
+    bloqueVerso(elegirVerso(d.versos)),
+    bloqueIdeas(elegirIdeas(p, 2)),
+    P("Si quieres, cuéntame más: ¿en qué momento del día te cuesta más vivir este pilar? Puedes hablarme de la pereza, del enojo, del orgullo, del tiempo, del dinero o de tus dudas.")
+  ];
+}
+
+/** Decide qué responder según el mensaje y el pilar activo. */
+function responderPires(texto) {
+  const t = norm(texto), actual = state.activo;
+  if (coincide(t, KW.crisis)) return respCrisis();
+  if (coincide(t, KW.animo)) return respAnimo();
+  const pDet = detectarPilar(t);
+  if (coincide(t, KW.comprometer)) return respComprometer(pDet ?? actual, pDet != null && pDet !== actual);
+  if (pDet != null) return respTema(pDet);
+  if (coincide(t, KW.consejo)) return respConsejo(actual);
+  if (coincide(t, KW.sabiduria)) return respSabiduria(actual);
+  if (coincide(t, KW.gracias)) return [P("No me lo agradezcas a mí. La sabiduría viene de lo alto; yo solo cuido el fuego. Ve en paz, y vuelve cuando el camino se oscurezca."), bloqueVerso(PIRES_GENERAL.bendicion)];
+  if (coincide(t, KW.saludo) && t.split(" ").length <= 4) return [P("Que la paz sea contigo. Siéntate junto al fuego; aquí el tiempo corre despacio. Cuéntame qué te inquieta, o elige una de las preguntas de abajo.")];
+  return respGeneral(actual);
+}
+
+/* --- "Usar esta idea en mi pergamino" --- */
+function usarIdea(texto, slot) {
+  const i = state.activo, comps = state.pilares[i].compromisos;
+  if (comps.some(c => norm(c.texto) === norm(texto))) { slot.replaceChildren(h("span", { class: "idea-ok" }, "✓ Ya está en tu pergamino")); return; }
+  const aplicar = j => {
+    comps[j] = { texto, hecho: false };
+    edicion.delete(j);
+    guardar(); refrescarLinea(j); renderContadores(); renderNav(); renderHeader();
+    slot.replaceChildren(h("span", { class: "idea-ok" }, `✓ Escrita en tu compromiso ${j + 1}`));
+    toast(`Idea añadida al compromiso ${j + 1} de ${VOTOS_DATA[i].corto}.`);
+  };
+  const vacio = comps.findIndex(c => !c.texto.trim());
+  if (vacio >= 0) { aplicar(vacio); return; }
+  // Si las 7 líneas están llenas, se pregunta cuál reemplazar
+  const original = [...slot.childNodes];
+  slot.replaceChildren(h("span", { class: "picker" }, "¿Reemplazar cuál?",
+    comps.map((c, j) => h("button", { type: "button", title: c.texto, "aria-label": `Reemplazar compromiso ${j + 1}: ${c.texto}`, onclick: () => aplicar(j) }, String(j + 1))),
+    h("button", { type: "button", class: "cancelar", onclick: () => slot.replaceChildren(...original) }, "Cancelar")));
+  slot.querySelector("button").focus();
+}
+
+/* --- Interfaz de la cueva --- */
+const dlgCueva = $("#dlg-cueva");
+let piresPensando = false;
+
+function burbuja(quien, nodos, clase) {
+  const log = $("#chat-log");
+  const b = h("div", { class: `msg ${clase}` }, h("div", { class: "quien" }, quien), nodos);
+  log.append(b);
+  log.scrollTop = log.scrollHeight;
+  return b;
+}
+function abrirCueva() {
+  flush();
+  $("#cueva-pilar").textContent = `Consultando sobre el ${nombrePilar(state.activo)}`;
+  $("#chat-log").replaceChildren();
+  versosUsados.clear();
+  burbuja("Pires el Sabio", [P(PIRES_SALUDO)], "msg-pires");
+  dlgCueva.showModal();
+  $("#chat-input").value = "";
+  $("#chat-input").focus();
+}
+function hablarConPires(texto) {
+  texto = texto.trim();
+  if (!texto || piresPensando) return;
+  piresPensando = true;
+  dlgCueva.querySelectorAll(".sug, .chat-form button").forEach(b => b.disabled = true);
+  burbuja("Tú", [texto], "msg-user");
+  const pensando = burbuja("Pires el Sabio", [h("span", { class: "escribiendo" }, "Pires medita junto al fuego", h("span", { class: "puntos", "aria-hidden": "true" }, h("span"), h("span"), h("span")))], "msg-pires");
+  $("#cueva-sabio").classList.add("pensando");
+  const reducido = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  setTimeout(() => {
+    pensando.remove();
+    burbuja("Pires el Sabio", responderPires(texto), "msg-pires");
+    $("#cueva-sabio").classList.remove("pensando");
+    piresPensando = false;
+    dlgCueva.querySelectorAll(".sug, .chat-form button").forEach(b => b.disabled = false);
+  }, reducido ? 150 : 900 + Math.min(texto.length * 10, 900));
+}
+
+/* =====================================================================
+   10c. FONDO AMBIENTAL: ráfagas de viento y hojas secas (canvas)
+   Decorativo, detrás del contenido, sin recibir clics. Se pausa con la
+   pestaña oculta o con la cueva abierta; respeta "reducir movimiento".
+   ===================================================================== */
+const Viento = (() => {
+  const cv = document.getElementById("fondo-viento");
+  const ctx = cv.getContext("2d");
+  const COLORES = ["#8c6239", "#a67c52", "#5c4033", "#9a6b3e", "#7a5230"];
+  let W = 0, H = 0, hojas = [], rafagas = [], viento = .35, objetivo = .35, proxRafaga = 0, finRafaga = 0, t = 0, ultimo = 0, activo = true;
+  const reducido = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  function nuevaHoja(inicio) {
+    return {
+      x: inicio ? Math.random() * W : -40 - Math.random() * 200,
+      y: inicio ? Math.random() * H : Math.random() * H * .7 - 40,
+      s: 7 + Math.random() * 10,                 // tamaño
+      prof: .5 + Math.random() * .8,             // profundidad (afecta velocidad y opacidad)
+      vy: .22 + Math.random() * .5,
+      rot: Math.random() * Math.PI * 2, vr: (Math.random() - .5) * .03,
+      giro: Math.random() * Math.PI * 2,         // volteo 3D aparente
+      fase: Math.random() * Math.PI * 2, amp: .4 + Math.random() * 1.1,
+      color: COLORES[Math.floor(Math.random() * COLORES.length)],
+      alfa: .32 + Math.random() * .38,
+      tipo: Math.random() < .55 ? 0 : 1
+    };
+  }
+  function redimensionar() {
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    W = window.innerWidth; H = window.innerHeight;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const n = Math.round(Math.min(34, Math.max(12, (W * H) / 42000)));
+    while (hojas.length < n) hojas.push(nuevaHoja(true));
+    hojas.length = n;
+    if (reducido.matches) dibujar();
+  }
+  function trazoHoja(hj) {
+    const s = hj.s;
+    ctx.beginPath();
+    if (hj.tipo === 0) {                         // hoja ovalada
+      ctx.moveTo(0, -s);
+      ctx.bezierCurveTo(s * .9, -s * .5, s * .7, s * .55, 0, s);
+      ctx.bezierCurveTo(-s * .7, s * .55, -s * .9, -s * .5, 0, -s);
+    } else {                                     // hoja lobulada (tipo roble)
+      ctx.moveTo(0, -s);
+      for (let k = 0; k < 3; k++) {
+        const y0 = -s + k * s * .62;
+        ctx.quadraticCurveTo(s * .75, y0 + s * .12, s * .32, y0 + s * .34);
+        ctx.quadraticCurveTo(s * .85, y0 + s * .45, s * .3 * (1 - k * .25), y0 + s * .62);
+      }
+      ctx.lineTo(0, s);
+      for (let k = 2; k >= 0; k--) {
+        const y0 = -s + k * s * .62;
+        ctx.quadraticCurveTo(-s * .85, y0 + s * .45, -s * .32, y0 + s * .34);
+        ctx.quadraticCurveTo(-s * .75, y0 + s * .12, 0, y0);
+      }
+    }
+    ctx.closePath();
+  }
+  function dibujar() {
+    ctx.clearRect(0, 0, W, H);
+    // Ráfagas: trazos curvos muy tenues
+    for (const r of rafagas) {
+      const a = Math.sin(Math.min(1, r.vida / r.dur) * Math.PI) * .16;
+      ctx.strokeStyle = `rgba(166,124,82,${a})`;
+      ctx.lineWidth = 1.2; ctx.lineCap = "round";
+      ctx.beginPath();
+      ctx.moveTo(r.x, r.y);
+      ctx.bezierCurveTo(r.x + r.len * .3, r.y - r.curva, r.x + r.len * .6, r.y + r.curva, r.x + r.len, r.y - r.curva * .4);
+      ctx.stroke();
+    }
+    for (const hj of hojas) {
+      ctx.save();
+      ctx.translate(hj.x, hj.y);
+      ctx.rotate(hj.rot);
+      ctx.scale(1, Math.max(.15, Math.abs(Math.cos(hj.giro))));
+      ctx.globalAlpha = hj.alfa * (.6 + hj.prof * .4);
+      ctx.fillStyle = hj.color;
+      trazoHoja(hj); ctx.fill();
+      ctx.strokeStyle = "rgba(60,38,20,.45)"; ctx.lineWidth = .8;   // nervadura y tallo
+      ctx.beginPath(); ctx.moveTo(0, -hj.s * .85); ctx.lineTo(0, hj.s * 1.25); ctx.stroke();
+      ctx.restore();
+    }
+  }
+  function paso(ahora) {
+    if (!activo) return;
+    requestAnimationFrame(paso);
+    const dt = Math.min(3, (ahora - (ultimo || ahora)) / 16.67); ultimo = ahora;
+    if (document.hidden || dlgCueva.open || reducido.matches) return;
+    t += dt;
+    // Programación de ráfagas suaves de viento
+    if (t > proxRafaga) {
+      objetivo = 1.6 + Math.random() * 1.6; finRafaga = t + 120 + Math.random() * 120; proxRafaga = finRafaga + 260 + Math.random() * 420;
+      for (let k = 0; k < 4 + Math.random() * 4; k++) rafagas.push({ x: -200 + Math.random() * W * .5, y: Math.random() * H, len: 140 + Math.random() * 220, curva: 8 + Math.random() * 22, vida: 0, dur: 120 + Math.random() * 80, v: 3 + Math.random() * 3 });
+    }
+    if (t > finRafaga) objetivo = .25 + Math.random() * .2;
+    viento += (objetivo - viento) * .012 * dt;
+    for (const r of rafagas) { r.vida += dt; r.x += r.v * dt * (.6 + viento * .4); }
+    rafagas = rafagas.filter(r => r.vida < r.dur);
+    for (const hj of hojas) {
+      hj.fase += .02 * dt;
+      hj.x += (viento * (.8 + hj.prof) + Math.sin(hj.fase) * hj.amp * .5) * dt;
+      hj.y += (hj.vy * hj.prof + Math.cos(hj.fase * .7) * .25 - (viento > 1.2 ? .15 : 0)) * dt;
+      hj.rot += (hj.vr + viento * .006) * dt;
+      hj.giro += (.025 + viento * .015) * dt;
+      if (hj.y > H + 30 || hj.x > W + 40) Object.assign(hj, nuevaHoja(false), Math.random() < .5 ? { x: Math.random() * W, y: -30 } : {});
+    }
+    dibujar();
+  }
+  return {
+    iniciar() {
+      redimensionar();
+      proxRafaga = 120;
+      window.addEventListener("resize", redimensionar);
+      reducido.addEventListener?.("change", () => { if (reducido.matches) dibujar(); });
+      if (reducido.matches) dibujar();
+      requestAnimationFrame(paso);
+    }
+  };
+})();
+
+/* =====================================================================
+   11. INICIO Y EVENTOS GLOBALES
+   ===================================================================== */
+function init() {
+  state = cargar();
+  if (!almacenamientoOK) $("#aviso-almacenamiento").hidden = false;
+  if (state.activo == null) state.activo = pilarSugerido();
+  guardar();                        // fija la fecha de inicio por defecto desde el primer uso
+  renderTodo();
+
+  $("#btn-config").addEventListener("click", abrirConfig);
+  $("#btn-export").addEventListener("click", exportar);
+  $("#btn-import").addEventListener("click", () => $("#file-import").click());
+  $("#file-import").addEventListener("change", e => { if (e.target.files[0]) importar(e.target.files[0]); });
+  $("#btn-print").addEventListener("click", () => { renderImpresion(); window.print(); });
+  window.addEventListener("beforeprint", renderImpresion);   // también con Ctrl/Cmd + P
+
+  // Cueva de Pires el Sabio
+  $("#btn-salir-cueva").addEventListener("click", () => dlgCueva.close());
+  $("#chat-form").addEventListener("submit", e => { e.preventDefault(); const inp = $("#chat-input"); hablarConPires(inp.value); inp.value = ""; inp.focus(); });
+  dlgCueva.querySelectorAll(".sug").forEach(b => b.addEventListener("click", () => hablarConPires(b.textContent)));
+
+  // Fondo de viento y hojas secas
+  Viento.iniciar();
+
+  // No perder lo último escrito al cerrar o cambiar de pestaña
+  window.addEventListener("beforeunload", flush);
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") flush(); });
+
+  // Sincronizar si la app está abierta en otra pestaña
+  window.addEventListener("storage", e => {
+    if (e.key !== STORAGE_KEY || !e.newValue) return;
+    try { const activo = state.activo; state = normalizar(JSON.parse(e.newValue)); state.activo = activo; renderTodo(); toast("Progreso actualizado desde otra pestaña."); }
+    catch (err) { /* ignorar */ }
+  });
+
+  // Reajustar altura de los campos al cambiar el tamaño de ventana
+  let rT = null;
+  window.addEventListener("resize", () => { clearTimeout(rT); rT = setTimeout(() => document.querySelectorAll(".comp textarea").forEach(autoSize), 150); });
+
+  // Si la app queda abierta pasada la medianoche, actualizar "hoy" sin tocar lo que escribes
+  let diaActual = hoyISO();
+  setInterval(() => {
+    if (hoyISO() === diaActual) return;
+    diaActual = hoyISO();
+    renderHeader(); renderNav(); renderVoto(); renderDias(); renderContadores();
+  }, 60 * 1000);
+}
+
+init();
+</script>
+</body>
+</html>
